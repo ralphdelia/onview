@@ -9,6 +9,11 @@ binding = "DB"                                       # i.e. available in your Wo
 database_name = "onview-artworks"
 database_id = "d99a14c0-2464-440d-9507-73eb709d0007"
 
+[[d1_databases]]
+binding = "DB"                                       # i.e. available in your Worker on env.DB
+database_name = "onview-artworks-local"
+database_id = "2f54939c-c8f9-494e-a3e9-b06ceb76d704"
+
 # Automatically place your workloads in an optimal location to minimize latency.
 # If you are running back-end logic in a Worker, running it closer to your back-end infrastructure
 # rather than the end user may result in better performance.
