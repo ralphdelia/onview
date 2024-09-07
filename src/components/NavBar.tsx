@@ -3,7 +3,9 @@ export const NavBar = () => {
 		<nav>
 			<ul>
 				<li>
-					<strong>OnView</strong>
+					<strong>
+						<a href="/">OnView</a>
+					</strong>
 				</li>
 			</ul>
 			<ul>

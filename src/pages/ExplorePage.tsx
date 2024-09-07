@@ -7,8 +7,12 @@ export const ExplorePage = ({ artworks }: { artworks: ArtworkWithoutEmbeddings[]
 	return (
 		<Layout>
 			<NavBar />
-			<h1>Explore</h1>
 			<div id="container">
+				<h1>Explore</h1>
+				<p class="tagline">
+					Discover connections between artworks from the Met Museum's collection by clicking "Find Similar" below each painting to reveal
+					hidden relationships within the collection.
+				</p>
 				<ArtworksGrid artworks={artworks} pageNumber={1} />
 			</div>
 		</Layout>

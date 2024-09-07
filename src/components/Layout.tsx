@@ -11,7 +11,11 @@ export const Layout = (props: { children?: any }) => {
 				<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.orange.min.css" />
 				<script src="https://unpkg.com/htmx.org@2.0.2/dist/htmx.js" integrity="sha384-yZq+5izaUBKcRgFbxgkRYwpHhHHCpp5nseXp0MEQ1A4MTWVMnqkmcuFez8x5qfxr" crossorigin="anonymous"></script>
 				<style>
-					img {
+				:root {
+            --pico-font-size: 95%;
+          }
+
+          img {
 						width: 100%;
 						height: auto;
 					}
@@ -36,19 +40,27 @@ export const Layout = (props: { children?: any }) => {
 							height: auto;
 						}
 					}
+
 					h1 {
 						margin-top: 10px;
 						margin-bottom: 30px;
 						text-align: center;
 					}
+
 					nav {
   				  margin-bottom: 30px;
 					}
+
 					.load {
-					display: block;
-          margin: 20px auto 60px;
+  					display: block;
+            margin: 20px auto 60px;
 					}
 
+					.tagline {
+  					width: 66%;
+  				  margin: 0 auto 40px;
+  					text-align: center
+					}
 					</style>
 				<!-- <script src="index.js"></script> -->
 			</head>

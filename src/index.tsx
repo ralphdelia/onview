@@ -3,6 +3,7 @@ import ArtworkPage from './pages/ArtworkPage';
 import { Bindings, ArtworkWithoutEmbeddings, VectorizeMatch, isArtworkRecord } from './types';
 import { ExplorePage } from './pages/ExplorePage';
 import { ArtworksGrid } from './components/ArtworksGrid';
+import NotFound from './pages/NotFound';
 
 const app = new Hono<{ Bindings: Bindings }>();
 
@@ -31,8 +32,7 @@ app.get('/artwork/:id', async (c) => {
 
 	const { results } = await stmt.bind(id).run();
 	const selectedArtwork = results[0];
-	//TODO: make custom 404 page
-	if (!isArtworkRecord(selectedArtwork)) return c.json(selectedArtwork);
+	if (!isArtworkRecord(selectedArtwork)) return c.html(<NotFound />);
 
 	const embeddings = JSON.parse(selectedArtwork.embeddings);
 	const matches = await c.env.VECTORIZE.query(embeddings, {
@@ -60,6 +60,8 @@ app.get('/explore', async (c) => {
       gallery_number AS "galleryNumber"
     FROM
       artworks
+    ORDER BY
+      id ASC
     LIMIT 30
          `);
 	const { results } = await stmt.run();
@@ -71,7 +73,7 @@ app.get('/api/explore', async (c) => {
 	let pageParam = c.req.query('page');
 	if (!pageParam) return c.html(<p>An unexpected error occured..</p>);
 	const pageNumber = parseInt(pageParam, 10);
-	const limit = 30 * pageNumber;
+	const limit = 30;
 	const offset = 30 * (pageNumber - 1);
 
 	const stmt = c.env.DB.prepare(`
@@ -89,6 +91,8 @@ app.get('/api/explore', async (c) => {
       gallery_number AS "galleryNumber"
     FROM
       artworks
+    ORDER BY
+      id ASC
     LIMIT ?
     OFFSET ?
     `);
@@ -96,5 +100,8 @@ app.get('/api/explore', async (c) => {
 
 	return c.html(<ArtworksGrid artworks={results as ArtworkWithoutEmbeddings[]} pageNumber={pageNumber} />);
 });
+
+// fallback
+app.get('*', (c) => c.html(<NotFound />));
 
 export default app;
