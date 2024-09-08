@@ -61,7 +61,18 @@ export const Layout = (props: { children?: any }) => {
   				  margin: 0 auto 40px;
   					text-align: center
 					}
-					</style>
+
+          .button-container {
+            display: flex;
+            justify-content: center; /* Center buttons horizontally */
+            gap: 30px; /* Adjust spacing between buttons */
+            margin-bottom: 60px;
+          }
+          figure > * {
+            display: flex;
+            justify-content: center;
+          }
+          </style>
 				<!-- <script src="index.js"></script> -->
 			</head>
 			<body class="container">

@@ -4,8 +4,13 @@ import { Bindings, ArtworkWithoutEmbeddings, VectorizeMatch, isArtworkRecord } f
 import { ExplorePage } from './pages/ExplorePage';
 import { ArtworksGrid } from './components/ArtworksGrid';
 import NotFound from './pages/NotFound';
+import HomePage from './pages/HomePage';
 
 const app = new Hono<{ Bindings: Bindings }>();
+
+app.get('/', (c) => {
+	return c.html(<HomePage />);
+});
 
 app.get('/artwork/:id', async (c) => {
 	const id = c.req.param('id');
@@ -99,6 +104,22 @@ app.get('/api/explore', async (c) => {
 	const { results } = await stmt.bind(limit, offset).all();
 
 	return c.html(<ArtworksGrid artworks={results as ArtworkWithoutEmbeddings[]} pageNumber={pageNumber} />);
+});
+
+app.get('/random', async (c) => {
+	const stmt = c.env.DB.prepare(`
+    SELECT
+      object_id as "objectID"
+    FROM
+      artworks
+    ORDER BY
+      RANDOM()
+    LIMIT 1
+    `);
+	const { results } = await stmt.run();
+	const objectID = results[0].objectID;
+
+	return c.redirect(`/artwork/${objectID}`);
 });
 
 // fallback
