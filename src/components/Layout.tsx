@@ -1,6 +1,6 @@
 import { html } from 'hono/html';
 
-export const Layout = (props: { children?: any }) => {
+const Layout = (props: { children?: any }) => {
 	return html`<!doctype html>
 		<html lang="en" data-theme="light">
 			<head>
@@ -18,7 +18,8 @@ export const Layout = (props: { children?: any }) => {
           img {
 						width: 100%;
 						height: auto;
-					}
+          }
+
 
 					@media (max-width: 1200px) {
 						img {
@@ -56,6 +57,11 @@ export const Layout = (props: { children?: any }) => {
             justify-content: center;
           }
 
+          .display-img {
+           max-width: 800px;
+           margin: 0 auto;
+          }
+
           .load {
   					display: block;
             margin: 20px auto 60px;
@@ -69,12 +75,11 @@ export const Layout = (props: { children?: any }) => {
 
           .button-container {
             display: flex;
-            justify-content: center; /* Center buttons horizontally */
-            gap: 30px; /* Adjust spacing between buttons */
+            justify-content: center;
+            gap: 30px;
             margin-bottom: 60px;
           }
           </style>
-				<!-- <script src="index.js"></script> -->
 			</head>
 			<body class="container">
 				${props.children}
@@ -86,3 +91,4 @@ export const Layout = (props: { children?: any }) => {
 				</body>
 		</html>`;
 };
+export default Layout;

@@ -1,6 +1,6 @@
 import { ArtworkRecord } from '../types';
 
-export const MainArtworkCard = ({ artworkInfo }: { artworkInfo: ArtworkRecord }) => {
+const MainArtworkCard = ({ artworkInfo }: { artworkInfo: ArtworkRecord }) => {
 	const {
 		objectID,
 		isHighlight,
@@ -55,3 +55,4 @@ export const MainArtworkCard = ({ artworkInfo }: { artworkInfo: ArtworkRecord })
 		</article>
 	);
 };
+export default MainArtworkCard;

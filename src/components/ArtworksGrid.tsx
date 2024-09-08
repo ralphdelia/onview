@@ -1,6 +1,6 @@
 import { ArtworkWithoutEmbeddings } from '../types';
 
-export const ArtworksGrid = ({ artworks, pageNumber }: { artworks: ArtworkWithoutEmbeddings[]; pageNumber: number }) => {
+const ArtworksGrid = ({ artworks, pageNumber }: { artworks: ArtworkWithoutEmbeddings[]; pageNumber: number }) => {
 	const sets = artworks.reduce((acc, obj) => {
 		if (acc.length === 0 || acc[acc.length - 1].length === 3) {
 			acc.push([obj]);
@@ -21,13 +21,11 @@ export const ArtworksGrid = ({ artworks, pageNumber }: { artworks: ArtworkWithou
 									<article>
 										<img src={artwork.primaryImageSmall} />
 										<p>
-											<br />
-											<strong>Title:</strong> {artwork.title}
-											<br />
-											<strong>Artists:</strong> {artwork.artistDisplayName || 'Unknown Artist'}
-											<br />
-											<strong>Date:</strong> {artwork.objectDate || 'n/a'}
-											<br />
+											<h4>{artwork.title}</h4>
+											<div style="display: inline-block;">
+												<i>{artwork.artistDisplayName}</i>
+												<p> {artwork.objectDate}</p>
+											</div>
 										</p>
 
 										<form action={`/artwork/${artwork.objectID}`} method="get">
@@ -48,3 +46,5 @@ export const ArtworksGrid = ({ artworks, pageNumber }: { artworks: ArtworkWithou
 		</>
 	);
 };
+
+export default ArtworksGrid;

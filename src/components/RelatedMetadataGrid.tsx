@@ -1,6 +1,6 @@
 import { VectorizeMatch, VectorizeVectorMetadata } from '../types';
 
-export const RelatedMetadataGrid = ({ relatedArtworks }: { relatedArtworks: VectorizeMatch[] }) => {
+const RelatedMetadataGrid = ({ relatedArtworks }: { relatedArtworks: VectorizeMatch[] }) => {
 	const pairs = relatedArtworks.reduce((acc, obj) => {
 		if (acc.length === 0 || acc[acc.length - 1].length === 3) {
 			acc.push([obj.metadata]);
@@ -22,15 +22,12 @@ export const RelatedMetadataGrid = ({ relatedArtworks }: { relatedArtworks: Vect
 									<article>
 										<img src={primaryImageSmall} />
 										<p>
-											<br />
-											<strong>Title:</strong> {title}
-											<br />
-											<strong>Artists:</strong> {artistDisplayName || 'Unknown Artist'}
-											<br />
-											<strong>Date:</strong> {objectDate || 'n/a'}
-											<br />
+											<h4>{title}</h4>
+											<div style="display: inline-block;">
+												<i>{artistDisplayName}</i>
+												<p> {objectDate}</p>
+											</div>
 										</p>
-
 										<form action={`/artwork/${objectID}`} method="get">
 											<button class="outline" type="submit">
 												Find Similar
@@ -46,3 +43,5 @@ export const RelatedMetadataGrid = ({ relatedArtworks }: { relatedArtworks: Vect
 		</>
 	);
 };
+
+export default RelatedMetadataGrid;

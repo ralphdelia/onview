@@ -1,4 +1,4 @@
-import { Layout } from '../components/Layout';
+import Layout from '../components/Layout';
 import NavBar from '../components/NavBar';
 
 const HomePage = () => {
@@ -16,13 +16,13 @@ const HomePage = () => {
 					<button>Explore</button>
 				</form>
 				<form action="/random" method="get">
-					<button>Im feeling lucky</button>
+					<button>I'm feeling lucky</button>
 				</form>
 			</div>
 			<figure>
 				<a href="/artwork/435882">
 					<img
-						style="margin: 0 auto"
+						class="display-img"
 						src="https://images.metmuseum.org/CRDImages/ep/web-large/DT47.jpg"
 						alt="Still Life with Apples and a Pot of Primroses"
 					/>

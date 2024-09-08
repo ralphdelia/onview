@@ -2,11 +2,12 @@ import { Hono } from 'hono';
 import ArtworkPage from './pages/ArtworkPage';
 import { Bindings, ArtworkWithoutEmbeddings, VectorizeMatch, isArtworkRecord, SearchParams } from './types';
 import { ExplorePage } from './pages/ExplorePage';
-import { ArtworksGrid } from './components/ArtworksGrid';
+import ArtworksGrid from './components/ArtworksGrid';
 import NotFound from './pages/NotFound';
 import HomePage from './pages/HomePage';
 import SearchPage from './pages/SearchPage';
 import SearchRows from './components/SearchRows';
+import AboutPage from './pages/AboutPage';
 
 const app = new Hono<{ Bindings: Bindings }>();
 
@@ -105,6 +106,14 @@ app.get('/api/explore', async (c) => {
     `);
 	const { results } = await stmt.bind(limit, offset).all();
 
+	if (results.length === 0) {
+		return c.html(
+			<button class="load" disabled>
+				Load More
+			</button>,
+		);
+	}
+
 	return c.html(<ArtworksGrid artworks={results as ArtworkWithoutEmbeddings[]} pageNumber={pageNumber} />);
 });
 
@@ -147,6 +156,9 @@ app.post('/search', async (c) => {
 	return c.html(<SearchRows results={results as SearchParams[]} />);
 });
 
+app.get('/about', (c) => {
+	return c.html(<AboutPage />);
+});
 // fallback
 app.get('*', (c) => c.html(<NotFound />));
 

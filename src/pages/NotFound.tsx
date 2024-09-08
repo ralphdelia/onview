@@ -1,4 +1,4 @@
-import { Layout } from '../components/Layout';
+import Layout from '../components/Layout';
 import NavBar from '../components/NavBar';
 
 const NotFound = () => {
