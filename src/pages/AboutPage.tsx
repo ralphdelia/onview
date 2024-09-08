@@ -5,16 +5,11 @@ const AboutPage = () => {
 	return (
 		<Layout>
 			<NavBar />
-			<hgroup>
-				<h2>
-					<mark>About</mark>
-				</h2>
-			</hgroup>
 			<article>
-				<h1>How it works</h1>
+				<h1>About</h1>
 				<p class="tagline">OnView compares visual characteristics between artworks, revealing similarities across cultures and time.</p>
 				<hr />
-				<br />
+				<h3>How It Works</h3>
 				<p>
 					The OnView dataset contains over 2000 images of paintings from the Metropolitan Museum of Art, that are part of the museum's{' '}
 					<a href="https://www.metmuseum.org/about-the-met/policies-and-documents/open-access">Open Access Initiative</a>. Each image has
