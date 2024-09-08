@@ -51,7 +51,12 @@ export const Layout = (props: { children?: any }) => {
   				  margin-bottom: 30px;
 					}
 
-					.load {
+					figure > * {
+            display: flex;
+            justify-content: center;
+          }
+
+          .load {
   					display: block;
             margin: 20px auto 60px;
 					}
@@ -67,10 +72,6 @@ export const Layout = (props: { children?: any }) => {
             justify-content: center; /* Center buttons horizontally */
             gap: 30px; /* Adjust spacing between buttons */
             margin-bottom: 60px;
-          }
-          figure > * {
-            display: flex;
-            justify-content: center;
           }
           </style>
 				<!-- <script src="index.js"></script> -->

@@ -1,5 +1,5 @@
 import { Layout } from '../components/Layout';
-import { NavBar } from '../components/NavBar';
+import NavBar from '../components/NavBar';
 import { MainArtworkCard } from '../components/MainArtworkCard';
 import { RelatedMetadataGrid } from '../components/RelatedMetadataGrid';
 import { ArtworkRecord, VectorizeMatch } from '../types';

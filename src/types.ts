@@ -19,6 +19,7 @@ export interface ArtworkRecord {
 }
 
 export type ArtworkWithoutEmbeddings = Omit<ArtworkRecord, 'embeddings'>;
+export type SearchParams = Pick<ArtworkRecord, 'objectID' | 'title' | 'artistDisplayName' | 'isHighlight'>;
 
 export const isArtworkRecord = (obj: any): obj is ArtworkRecord => {
 	return (

@@ -1,13 +1,14 @@
 import { Layout } from '../components/Layout';
 import NavBar from '../components/NavBar';
+import Search from '../components/Search';
 
-const NotFound = () => {
+const SearchPage = () => {
 	return (
 		<Layout>
 			<NavBar />
-			<h1>404</h1>
-			<p class="tagline">page not found</p>
+			<Search />
 		</Layout>
 	);
 };
-export default NotFound;
+
+export default SearchPage;

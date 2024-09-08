@@ -1,10 +1,12 @@
 import { Hono } from 'hono';
 import ArtworkPage from './pages/ArtworkPage';
-import { Bindings, ArtworkWithoutEmbeddings, VectorizeMatch, isArtworkRecord } from './types';
+import { Bindings, ArtworkWithoutEmbeddings, VectorizeMatch, isArtworkRecord, SearchParams } from './types';
 import { ExplorePage } from './pages/ExplorePage';
 import { ArtworksGrid } from './components/ArtworksGrid';
 import NotFound from './pages/NotFound';
 import HomePage from './pages/HomePage';
+import SearchPage from './pages/SearchPage';
+import SearchRows from './components/SearchRows';
 
 const app = new Hono<{ Bindings: Bindings }>();
 
@@ -120,6 +122,29 @@ app.get('/random', async (c) => {
 	const objectID = results[0].objectID;
 
 	return c.redirect(`/artwork/${objectID}`);
+});
+
+app.get('/search', (c) => {
+	return c.html(<SearchPage />);
+});
+
+app.post('/search', async (c) => {
+	const { searchTerm } = await c.req.parseBody();
+	const stmt = c.env.DB.prepare(`
+  SELECT
+    object_id AS "objectID",
+    is_highlight AS "isHighlight",
+    title,
+    artist_display_name AS "artistDisplayName"
+  FROM
+    artworks
+  WHERE
+    title LIKE ? OR artist_display_name LIKE ?
+  ORDER BY
+    artist_display_name ASC
+    `);
+	const { results } = await stmt.bind(`%${searchTerm}%`, `%${searchTerm}%`).all();
+	return c.html(<SearchRows results={results as SearchParams[]} />);
 });
 
 // fallback

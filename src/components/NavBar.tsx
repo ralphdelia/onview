@@ -1,4 +1,4 @@
-export const NavBar = () => {
+const NavBar = () => {
 	return (
 		<nav>
 			<ul>
@@ -13,9 +13,11 @@ export const NavBar = () => {
 					<a href="/explore">Explore</a>
 				</li>
 				<li>
-					<a href="#">About</a>
+					<a href="/search">Search</a>
 				</li>
 			</ul>
 		</nav>
 	);
 };
+
+export default NavBar;
