@@ -17,7 +17,6 @@ app.get('/', (c) => {
 
 app.get('/artwork/:id', async (c) => {
 	const id = c.req.param('id');
-
 	const stmt = c.env.DB.prepare(`
 	SELECT
     object_id AS "objectID",

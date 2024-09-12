@@ -7,7 +7,7 @@ const HomePage = () => {
 			<NavBar />
 			<h1>OnView</h1>
 			<p class="tagline">
-				A search engine for visually similar paintings that are part of the Metropolitan Museum of Art's Open Access Initiative. Find
+				A way to discover visually similar paintings that are part of the Metropolitan Museum of Art's Open Access Initiative. Find
 				paintings you love and explore connections across the collection.
 				<br />
 			</p>
