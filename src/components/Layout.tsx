@@ -20,26 +20,33 @@ const Layout = (props: { children?: any }) => {
 						height: auto;
           }
 
-
+          @media (min-width: 1201px) {
+            .display-img {
+              width: 60vw;
+            }
+          }
 					@media (max-width: 1200px) {
 						img {
-							width: 80vw;
-							height: auto;
-						}
-					}
-
-					@media (max-width: 800px) {
-						img {
-							width: 60vw;
+  						margin-left: auto;
+              margin-right: auto;
+              display: block;
+							width: 70vw;
 							height: auto;
 						}
 					}
 
 					@media (max-width: 500px) {
 						img {
-							width: 40vw;
+  						margin-left: auto;
+              margin-right: auto;
+              display: block;
+              width: 60vw;
 							height: auto;
 						}
+
+						.display-img {
+              width: 70vw;
+            }
 					}
 
 					h1 {
@@ -57,10 +64,6 @@ const Layout = (props: { children?: any }) => {
             justify-content: center;
           }
 
-          .display-img {
-           max-width: 800px;
-           margin: 0 auto;
-          }
 
           .load {
   					display: block;

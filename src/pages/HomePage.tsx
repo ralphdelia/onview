@@ -23,7 +23,7 @@ const HomePage = () => {
 				<a href="/artwork/435882">
 					<img
 						class="display-img"
-						src="https://images.metmuseum.org/CRDImages/ep/web-large/DT47.jpg"
+						src="https://collectionapi.metmuseum.org/api/collection/v1/iiif/435882/796423/main-image"
 						alt="Still Life with Apples and a Pot of Primroses"
 					/>
 				</a>
