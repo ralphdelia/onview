@@ -21,7 +21,7 @@ const ArtworksGrid = ({ artworks, pageNumber }: { artworks: ArtworkWithoutEmbedd
 									<article>
 										<img src={artwork.primaryImageSmall} />
 										<p>
-											<h4>{artwork.title}</h4>
+											<h5>{artwork.title}</h5>
 											<div style="display: inline-block;">
 												<i>{artwork.artistDisplayName}</i>
 												<p> {artwork.objectDate}</p>

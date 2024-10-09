@@ -21,7 +21,7 @@ const RelatedMetadataGrid = ({ relatedArtworks }: { relatedArtworks: VectorizeMa
 								<article>
 									<img src={primaryImageSmall} />
 									<p>
-										<h4>{title}</h4>
+										<h5>{title}</h5>
 										<div style="display: inline-block;">
 											<i>{artistDisplayName}</i>
 											<p> {objectDate}</p>
