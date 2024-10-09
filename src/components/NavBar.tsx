@@ -16,6 +16,9 @@ const NavBar = () => {
 					<a href="/search">Search</a>
 				</li>
 				<li>
+					<a href="/random">Random</a>
+				</li>
+				<li>
 					<a href="/about">About</a>
 				</li>
 			</ul>
