@@ -66,7 +66,7 @@ const Layout = (props: { children?: any }) => {
 
           @media (min-width: 1280px) {
             .container {
-              max-width: 1280px;
+              max-width: 950px;
             }
           }
 
