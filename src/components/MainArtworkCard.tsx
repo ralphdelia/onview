@@ -24,18 +24,24 @@ const MainArtworkCard = ({ artworkInfo }: { artworkInfo: ArtworkRecord }) => {
 					<p>
 						<strong>Artist:</strong> {artistDisplayName || 'Unknown Artist'}
 					</p>
+					{culture && (
+						<p>
+							<strong>Culture:</strong> {culture}
+						</p>
+					)}
 					<p>
-						<strong>Culture:</strong> {culture}
+						<strong>Date:</strong> {objectDate ? objectDate : 'n/a'}
 					</p>
-					<p>
-						<strong>Date:</strong> {objectDate}
-					</p>
-					<p>
-						<strong>Medium:</strong> {medium}
-					</p>
-					<p>
-						<strong>Dimensions:</strong> {dimensions}
-					</p>
+					{medium && (
+						<p>
+							<strong>Medium:</strong> {medium}
+						</p>
+					)}
+					{dimensions && (
+						<p>
+							<strong>Dimensions:</strong> {dimensions}
+						</p>
+					)}
 					{galleryNumber && (
 						<p>
 							<strong>Gallery:</strong> {galleryNumber}
