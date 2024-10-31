@@ -87,8 +87,63 @@ const Layout = (props: { children?: any }) => {
             gap: 30px;
             margin-bottom: 60px;
           }
+
+          /* Theme Toggle */
+          #theme-toggle-icon {
+            cursor: pointer;
+            transition: transform 0.3s ease;
+          }
+
+          .sun-core {
+            fill: var(--pico-primary);
+          }
+
+          .sun-rays {
+            stroke: var(--pico-primary);
+            stroke-width: 1.5;
+          }
+
+          .moon {
+            fill: var(--pico-muted-color);
+            transition: opacity 0.3s ease;
+          }
+
+          [data-theme="dark"] #theme-toggle-icon .sun-core,
+          [data-theme="dark"] #theme-toggle-icon .sun-rays {
+            opacity: 0;
+          }
+
+          [data-theme="dark"] #theme-toggle-icon .moon {
+            opacity: 1;
+          }
+
+          [data-theme="light"] #theme-toggle-icon .moon {
+            opacity: 0;
+          }
+
           </style>
 			</head>
+			<script>
+			  document.addEventListener('DOMContentLoaded', () => {
+					const themePreference = localStorage.getItem('theme');
+					if (themePreference) {
+					  document.documentElement.dataset.theme = themePreference
+					}
+     	    document.getElementById('theme-toggle-icon').addEventListener('click', (e) => {
+						e.preventDefault()
+				    const htmlElement = document.documentElement
+						let newTheme
+						if (htmlElement.dataset.theme === 'light') {
+						  newTheme = 'dark'
+						} else {
+						  newTheme = 'light'
+						}
+				    htmlElement.dataset.theme = newTheme;
+						localStorage.setItem('theme', newTheme)
+        })
+					})
+			</script>
+
 			<body class="container">
 				${props.children}
 
