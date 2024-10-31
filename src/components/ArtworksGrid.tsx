@@ -22,7 +22,7 @@ const ArtworksGrid = ({ artworks, pageNumber }: { artworks: ArtworkWithoutEmbedd
 					</div>
 				);
 			})}
-			<button class="load" hx-get={'api/explore?page=' + (pageNumber + 1)} hx-target="this" hx-swap="outerHTML">
+			<button id="load-more-btn" class="load" data-action={'api/explore?page=' + (pageNumber + 1)}>
 				Load More
 			</button>
 		</>

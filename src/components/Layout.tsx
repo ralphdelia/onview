@@ -9,7 +9,6 @@ const Layout = (props: { children?: any }) => {
 				<meta http-equiv="X-UA-Compatible" content="ie=edge" />
 				<title>OnView</title>
 				<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.orange.min.css" />
-				<script src="https://unpkg.com/htmx.org@2.0.2/dist/htmx.js" integrity="sha384-yZq+5izaUBKcRgFbxgkRYwpHhHHCpp5nseXp0MEQ1A4MTWVMnqkmcuFez8x5qfxr" crossorigin="anonymous"></script>
 				<style>
 				:root {
             --pico-font-size: 95%;

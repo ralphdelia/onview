@@ -2,10 +2,12 @@ import Layout from '../components/Layout';
 import NavBar from '../components/NavBar';
 import ArtworksGrid from '../components/ArtworksGrid';
 import { ArtworkWithoutEmbeddings } from '../types';
+import InfiniteScrollScript from '../components/InfiniteScrollScript';
 
 const ExplorePage = ({ artworks }: { artworks: ArtworkWithoutEmbeddings[] }) => {
 	return (
 		<Layout>
+			<InfiniteScrollScript />
 			<NavBar />
 			<div id="container">
 				<h1>Explore</h1>

@@ -24,22 +24,3 @@ const SearchScript = () => {
 };
 
 export default SearchScript;
-/*
-
-input value
-
-delay (set timeout) => send request
-delay => new input => cancel request
-create a new request
-
-clearTimeout - clears it
-
-
-
-set time out fires
-
-make a fetch request to the server with the search term
-as a query string
-
-replace the search results with the reponse
-*/
