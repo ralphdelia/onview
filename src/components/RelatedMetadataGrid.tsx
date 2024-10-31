@@ -1,4 +1,5 @@
 import { VectorizeMatch, VectorizeVectorMetadata } from '../types';
+import ArtworkCard from './ArtworkCard';
 
 const RelatedMetadataGrid = ({ relatedArtworks }: { relatedArtworks: VectorizeMatch[] }) => {
 	const pairs = relatedArtworks.reduce((acc, obj) => {
@@ -13,28 +14,12 @@ const RelatedMetadataGrid = ({ relatedArtworks }: { relatedArtworks: VectorizeMa
 	return (
 		<>
 			<h3>Related:</h3>
-			{pairs.map((pair, idx) => {
+			{pairs.map((pair) => {
 				return (
-					<div key={idx} className="grid">
-						{pair.map(({ primaryImageSmall, title, artistDisplayName, objectDate, objectID }, i) => {
-							return (
-								<article>
-									<img src={primaryImageSmall} />
-									<p>
-										<h5>{title}</h5>
-										<div style="display: inline-block;">
-											<i>{artistDisplayName}</i>
-											<p> {objectDate}</p>
-										</div>
-									</p>
-									<form action={`/artwork/${objectID}`} method="get">
-										<button class="outline" type="submit">
-											Find Similar
-										</button>
-									</form>
-								</article>
-							);
-						})}
+					<div className="grid">
+						{pair.map((artwork) => (
+							<ArtworkCard {...artwork} />
+						))}
 					</div>
 				);
 			})}

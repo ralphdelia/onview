@@ -79,10 +79,12 @@ app.get('/explore', async (c) => {
 app.get('/api/explore', async (c) => {
 	let pageParam = c.req.query('page');
 	if (!pageParam) return c.html(<p>An unexpected error occured..</p>);
+
 	const pageNumber = parseInt(pageParam, 10);
+	if (isNaN(pageNumber)) return c.html(<p>An unexpected error occured..</p>);
+
 	const limit = 30;
 	const offset = 30 * (pageNumber - 1);
-
 	const stmt = c.env.DB.prepare(`
     SELECT
       object_id AS "objectID",
@@ -139,17 +141,17 @@ app.get('/search', (c) => {
 app.post('/search', async (c) => {
 	const { searchTerm } = await c.req.parseBody();
 	const stmt = c.env.DB.prepare(`
-  SELECT
-    object_id AS "objectID",
-    is_highlight AS "isHighlight",
-    title,
-    artist_display_name AS "artistDisplayName"
-  FROM
-    artworks
-  WHERE
-    title LIKE ? OR artist_display_name LIKE ?
-  ORDER BY
-    artist_display_name ASC
+    SELECT
+      object_id AS "objectID",
+      is_highlight AS "isHighlight",
+      title,
+      artist_display_name AS "artistDisplayName"
+    FROM
+      artworks
+    WHERE
+      title LIKE ? OR artist_display_name LIKE ?
+    ORDER BY
+      artist_display_name ASC
     `);
 	const { results } = await stmt.bind(`%${searchTerm}%`, `%${searchTerm}%`).all();
 	return c.html(<SearchRows results={results as SearchParams[]} />);
@@ -158,6 +160,7 @@ app.post('/search', async (c) => {
 app.get('/about', (c) => {
 	return c.html(<AboutPage />);
 });
+
 // fallback
 app.get('*', (c) => c.html(<NotFound />));
 

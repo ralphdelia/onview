@@ -1,4 +1,5 @@
 import { ArtworkWithoutEmbeddings } from '../types';
+import ArtworkCard from './ArtworkCard';
 
 const ArtworksGrid = ({ artworks, pageNumber }: { artworks: ArtworkWithoutEmbeddings[]; pageNumber: number }) => {
 	const sets = artworks.reduce((acc, obj) => {
@@ -15,28 +16,9 @@ const ArtworksGrid = ({ artworks, pageNumber }: { artworks: ArtworkWithoutEmbedd
 			{sets.map((set) => {
 				return (
 					<div className="grid">
-						{set.map((artwork) => {
-							return (
-								<div>
-									<article>
-										<img src={artwork.primaryImageSmall} />
-										<p>
-											<h5>{artwork.title}</h5>
-											<div style="display: inline-block;">
-												<i>{artwork.artistDisplayName}</i>
-												<p> {artwork.objectDate}</p>
-											</div>
-										</p>
-
-										<form action={`/artwork/${artwork.objectID}`} method="get">
-											<button class="outline" type="submit">
-												Find Similar
-											</button>
-										</form>
-									</article>
-								</div>
-							);
-						})}
+						{set.map((artwork) => (
+							<ArtworkCard {...artwork} />
+						))}
 					</div>
 				);
 			})}
