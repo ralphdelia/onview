@@ -3,7 +3,7 @@ import NavBar from '../components/NavBar';
 import ArtworksGrid from '../components/ArtworksGrid';
 import { ArtworkWithoutEmbeddings } from '../types';
 
-export const ExplorePage = ({ artworks }: { artworks: ArtworkWithoutEmbeddings[] }) => {
+const ExplorePage = ({ artworks }: { artworks: ArtworkWithoutEmbeddings[] }) => {
 	return (
 		<Layout>
 			<NavBar />
@@ -18,3 +18,5 @@ export const ExplorePage = ({ artworks }: { artworks: ArtworkWithoutEmbeddings[]
 		</Layout>
 	);
 };
+
+export default ExplorePage;

@@ -1,7 +1,7 @@
 import { Hono } from 'hono';
 import ArtworkPage from './pages/ArtworkPage';
 import { Bindings, ArtworkWithoutEmbeddings, VectorizeMatch, isArtworkRecord, SearchParams } from './types';
-import { ExplorePage } from './pages/ExplorePage';
+import ExplorePage from './pages/ExplorePage';
 import ArtworksGrid from './components/ArtworksGrid';
 import NotFound from './pages/NotFound';
 import HomePage from './pages/HomePage';
