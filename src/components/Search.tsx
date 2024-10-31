@@ -6,14 +6,7 @@ const Search = () => {
 				Find approximately 2000 paintings that are currently on display at the Metropolitan Museum of Art and are part of its{' '}
 				<a href="https://www.metmuseum.org/about-the-met/policies-and-documents/open-access">Open Access Initiative</a>.
 			</p>
-			<input
-				type="search"
-				name="searchTerm"
-				placeholder="Begin Typing Search To By Titles or Artists..."
-				hx-post="/search"
-				hx-trigger="input changed delay:500ms, search"
-				hx-target="#search-results"
-			/>
+			<input type="search" name="searchTerm" placeholder="Begin Typing Search To By Titles or Artists..." />
 
 			<table>
 				<thead>

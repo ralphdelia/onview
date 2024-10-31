@@ -139,7 +139,7 @@ app.get('/search', (c) => {
 });
 
 app.post('/search', async (c) => {
-	const { searchTerm } = await c.req.parseBody();
+	const { searchTerm } = await c.req.json();
 	const stmt = c.env.DB.prepare(`
     SELECT
       object_id AS "objectID",
