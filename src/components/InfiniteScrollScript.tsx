@@ -9,10 +9,18 @@ const InfiniteScrollScript = () => {
 				loadMoreButton.addEventListener('click', async (e) => {
 					e.preventDefault();
 					const action = e.currentTarget.dataset.action;
+					try {
+						const res = await fetch(action);
 
-					const res = await fetch(action);
-					const resHTML = await res.text();
-					loadMoreButton.outerHTML = resHTML;
+						if (!res.ok) {
+							throw new Error('Non 200 Response');
+						}
+
+						const resHTML = await res.text();
+						loadMoreButton.outerHTML = resHTML;
+					} catch (e) {
+						console.error('Error fetching: ' + action, e);
+					}
 
 					addLoadButtonListener(); // add listener for new button
 				});

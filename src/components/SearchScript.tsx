@@ -10,13 +10,22 @@ const SearchScript = () => {
 
 				const searchTerm = e.target.value;
 				timeoutId = setTimeout(async () => {
-					const res = await fetch('/search', {
-						method: 'POST',
-						headers: { 'Content-Type': 'application/json' },
-						body: JSON.stringify({ searchTerm }),
-					});
-					const tableRows = await res.text();
-					document.getElementById('search-results').innerHTML = tableRows;
+					try {
+						const res = await fetch('/search', {
+							method: 'POST',
+							headers: { 'Content-Type': 'application/json' },
+							body: JSON.stringify({ searchTerm }),
+						});
+
+						if (!res.ok) {
+							throw new Error('Non 200 response');
+						}
+
+						const tableRows = await res.text();
+						document.getElementById('search-results').innerHTML = tableRows;
+					} catch (e) {
+						console.error('Error fetching search results', e);
+					}
 				}, 500);
 			});
 		});
