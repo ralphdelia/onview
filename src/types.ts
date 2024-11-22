@@ -19,26 +19,8 @@ export interface ArtworkRecord {
 }
 
 export type ArtworkWithoutEmbeddings = Omit<ArtworkRecord, 'embeddings'>;
-export type SearchParams = Pick<ArtworkRecord, 'objectID' | 'title' | 'artistDisplayName' | 'isHighlight'>;
 
-export const isArtworkRecord = (obj: any): obj is ArtworkRecord => {
-	return (
-		typeof obj === 'object' &&
-		obj !== null &&
-		typeof obj.objectID === 'number' &&
-		typeof obj.isHighlight === 'string' &&
-		typeof obj.primaryImageSmall === 'string' &&
-		typeof obj.title === 'string' &&
-		typeof obj.culture === 'string' &&
-		typeof obj.artistDisplayName === 'string' &&
-		typeof obj.artistDisplayBio === 'string' &&
-		typeof obj.objectDate === 'string' &&
-		typeof obj.medium === 'string' &&
-		typeof obj.dimensions === 'string' &&
-		typeof obj.galleryNumber === 'string' &&
-		typeof obj.embeddings === 'string'
-	);
-};
+export type SearchableData = Pick<ArtworkRecord, 'objectID' | 'title' | 'artistDisplayName' | 'isHighlight'>;
 
 export interface VectorizeVectorMetadata {
 	artistDisplayName: string;

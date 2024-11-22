@@ -1,6 +1,6 @@
 import { Hono } from 'hono';
 import ArtworkPage from './pages/ArtworkPage';
-import { Bindings, ArtworkWithoutEmbeddings, VectorizeMatch, isArtworkRecord, SearchParams } from './types';
+import { Bindings, ArtworkWithoutEmbeddings, VectorizeMatch, SearchableData } from './types';
 import ExplorePage from './pages/ExplorePage';
 import ArtworksGrid from './components/ArtworksGrid';
 import NotFound from './pages/NotFound';
@@ -8,6 +8,7 @@ import HomePage from './pages/HomePage';
 import SearchPage from './pages/SearchPage';
 import SearchRows from './components/SearchRows';
 import AboutPage from './pages/AboutPage';
+import { isArtworkRecord, toArtworkWithoutEmbedding, toSearchableData, toVectorizeMatches } from './utils';
 
 const app = new Hono<{ Bindings: Bindings }>();
 
@@ -47,8 +48,9 @@ app.get('/artwork/:id', async (c) => {
 		topK: 18,
 		filter: { objectID: { $ne: id } },
 	});
-	const matchedArtworks = matches.matches as unknown as VectorizeMatch[];
-	return c.html(<ArtworkPage artworkInfo={selectedArtwork} relatedArtworks={matchedArtworks} />);
+	const transformedMatches: VectorizeMatch[] = toVectorizeMatches(matches);
+
+	return c.html(<ArtworkPage artworkInfo={selectedArtwork} relatedArtworks={transformedMatches} />);
 });
 
 app.get('/explore', async (c) => {
@@ -72,8 +74,9 @@ app.get('/explore', async (c) => {
     LIMIT 30
          `);
 	const { results } = await stmt.run();
+	const artworks: ArtworkWithoutEmbeddings[] = toArtworkWithoutEmbedding(results);
 
-	return c.html(<ExplorePage artworks={results as ArtworkWithoutEmbeddings[]} />);
+	return c.html(<ExplorePage artworks={artworks} />);
 });
 
 app.get('/api/explore', async (c) => {
@@ -114,8 +117,9 @@ app.get('/api/explore', async (c) => {
 			</button>,
 		);
 	}
+	const artworks: ArtworkWithoutEmbeddings[] = toArtworkWithoutEmbedding(results);
 
-	return c.html(<ArtworksGrid artworks={results as ArtworkWithoutEmbeddings[]} pageNumber={pageNumber} />);
+	return c.html(<ArtworksGrid artworks={artworks} pageNumber={pageNumber} />);
 });
 
 app.get('/random', async (c) => {
@@ -154,7 +158,9 @@ app.post('/search', async (c) => {
       artist_display_name ASC
     `);
 	const { results } = await stmt.bind(`%${searchTerm}%`, `%${searchTerm}%`).all();
-	return c.html(<SearchRows results={results as SearchParams[]} />);
+	const searchableData: SearchableData[] = toSearchableData(results);
+
+	return c.html(<SearchRows results={searchableData} />);
 });
 
 app.get('/about', (c) => {
