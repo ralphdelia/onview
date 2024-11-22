@@ -1,6 +1,7 @@
 import { html } from 'hono/html';
+import { ReactNode } from 'hono/jsx';
 
-const Layout = (props: { children?: any }) => {
+const Layout = (props: { children: ReactNode }) => {
 	return html`
 		<!doctype html>
 		<html lang="en" data-theme="light">
@@ -12,9 +13,20 @@ const Layout = (props: { children?: any }) => {
 				<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.orange.min.css" />
 				<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 				<style>
+					#theme-toggle-icon {
+						position: relative;
+					}
+
+					#theme-toggle-icon:hover {
+						cursor: pointer;
+					}
+
 					#theme-toggle-icon .material-icons {
-						position: absolute;
 						transition: opacity 0.3s ease;
+					}
+
+					.material-icons {
+						position: absolute;
 					}
 
 					.material-icons.dark {

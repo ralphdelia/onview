@@ -23,10 +23,12 @@ const NavBar = () => {
 				</li>
 			</ul>
 			<ul>
-				<div id="theme-toggle-icon">
-					<span class="material-icons light">light_mode</span>
-					<span class="material-icons dark">dark_mode</span>
-				</div>
+				<li>
+					<div id="theme-toggle-icon">
+						<span class="material-icons light">light_mode</span>
+						<span class="material-icons dark">dark_mode</span>
+					</div>
+				</li>
 			</ul>
 		</nav>
 	);
