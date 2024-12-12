@@ -215,6 +215,13 @@ const Layout = (props: { children: ReactNode }) => {
 				<footer>
 					<hr />
 				</footer>
+				<!-- Cloudflare Web Analytics -->
+				<script
+					defer
+					src="https://static.cloudflareinsights.com/beacon.min.js"
+					data-cf-beacon='{"token": "e5f6e59d47a94bc39051eb450ed41f11"}'
+				></script>
+				<!-- End Cloudflare Web Analytics -->
 			</body>
 		</html>
 	`;
