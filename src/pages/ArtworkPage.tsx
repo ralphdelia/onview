@@ -6,7 +6,7 @@ import { ArtworkRecord, VectorizeMatch } from '../types';
 
 interface ArtworkPageParams {
 	artworkInfo: ArtworkRecord;
-	relatedArtworks: VectorizeMatch[];
+	relatedArtworks: VectorizeMatch;
 }
 const ArtworkPage = ({ artworkInfo, relatedArtworks }: ArtworkPageParams) => {
 	return (

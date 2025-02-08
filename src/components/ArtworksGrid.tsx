@@ -1,7 +1,7 @@
-import { ArtworkWithoutEmbeddings } from '../types';
+import { ArtworksWithoutEmbeddings } from '../types';
 import ArtworkCard from './ArtworkCard';
 
-const ArtworksGrid = ({ artworks, pageNumber }: { artworks: ArtworkWithoutEmbeddings[]; pageNumber: number }) => {
+const ArtworksGrid = ({ artworks, pageNumber }: { artworks: ArtworksWithoutEmbeddings; pageNumber: number }) => {
 	const sets = artworks.reduce((acc, obj) => {
 		if (acc.length === 0 || acc[acc.length - 1].length === 3) {
 			acc.push([obj]);
@@ -9,7 +9,7 @@ const ArtworksGrid = ({ artworks, pageNumber }: { artworks: ArtworkWithoutEmbedd
 			acc[acc.length - 1].push(obj);
 		}
 		return acc;
-	}, [] as ArtworkWithoutEmbeddings[][]);
+	}, [] as ArtworksWithoutEmbeddings[]);
 
 	return (
 		<>

@@ -1,35 +1,60 @@
+import { z } from 'zod';
+// import { cloudflareVectorMetadataSchema, cloudflareMatchSchema } from 'cloudflare/vectorize';
+
 export interface Bindings {
 	DB: D1Database;
 	VECTORIZE: Vectorize;
 }
 
-export interface ArtworkRecord {
-	objectID: number;
-	isHighlight: string;
-	primaryImageSmall: string;
-	title: string;
-	culture: string;
-	artistDisplayName: string;
-	artistDisplayBio: string;
-	objectDate: string;
-	medium: string;
-	dimensions: string;
-	galleryNumber: string;
-	embeddings: string;
-}
+// Full artwork record
+export const artworkRecordSchema = z.object({
+	objectID: z.number(),
+	isHighlight: z.string(),
+	primaryImageSmall: z.string(),
+	title: z.string(),
+	culture: z.string(),
+	artistDisplayName: z.string(),
+	artistDisplayBio: z.string(),
+	objectDate: z.string(),
+	medium: z.string(),
+	dimensions: z.string(),
+	galleryNumber: z.string(),
+	embeddings: z.string(),
+});
+export type ArtworkRecord = z.infer<typeof artworkRecordSchema>;
 
-export type ArtworkWithoutEmbeddings = Omit<ArtworkRecord, 'embeddings'>;
+//Without embeddings
+export const artworkWithoutEmbeddingSchema = artworkRecordSchema.omit({ embeddings: true });
+export type ArtworkWithoutEmbeddings = z.infer<typeof artworkWithoutEmbeddingSchema>;
 
-export type SearchableData = Pick<ArtworkRecord, 'objectID' | 'title' | 'artistDisplayName' | 'isHighlight'>;
+// Array of Artworks without embeddings
+export const artworksWithoutEmbeddingsSchema = z.array(artworkRecordSchema.omit({ embeddings: true }));
+export type ArtworksWithoutEmbeddings = z.infer<typeof artworksWithoutEmbeddingsSchema>;
 
-export interface VectorizeVectorMetadata {
-	artistDisplayName: string;
-	objectDate: string;
-	objectID: number;
-	primaryImageSmall: string;
-	title: string;
-}
+//Artwork Serach results
+export const artworkSearchResultsSchema = z.array(
+	artworkRecordSchema.pick({
+		objectID: true,
+		title: true,
+		artistDisplayName: true,
+		isHighlight: true,
+	}),
+);
+export type ArtworkSearchResults = z.infer<typeof artworkSearchResultsSchema>;
 
-export interface VectorizeMatch {
-	metadata: VectorizeVectorMetadata;
-}
+// vectorize metadata
+export const vectorizeVectorMetadataSchema = z.object({
+	artistDisplayName: z.string(),
+	objectDate: z.string(),
+	objectID: z.number(),
+	primaryImageSmall: z.string(),
+	title: z.string(),
+});
+export type VectorizeVectorMetadata = z.infer<typeof vectorizeVectorMetadataSchema>;
+
+// vectorize match
+const vectorizeMatchSchema = z.object({
+	metadata: vectorizeVectorMetadataSchema,
+});
+export const vectorizeMatchesSchema = z.array(vectorizeMatchSchema);
+export type VectorizeMatch = z.infer<typeof vectorizeMatchesSchema>;
