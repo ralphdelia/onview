@@ -1,5 +1,4 @@
 import { z } from 'zod';
-// import { cloudflareVectorMetadataSchema, cloudflareMatchSchema } from 'cloudflare/vectorize';
 
 export interface Bindings {
 	DB: D1Database;
@@ -23,7 +22,7 @@ export const artworkRecordSchema = z.object({
 });
 export type ArtworkRecord = z.infer<typeof artworkRecordSchema>;
 
-//Without embeddings
+// Without embeddings
 export const artworkWithoutEmbeddingSchema = artworkRecordSchema.omit({ embeddings: true });
 export type ArtworkWithoutEmbeddings = z.infer<typeof artworkWithoutEmbeddingSchema>;
 
@@ -31,7 +30,7 @@ export type ArtworkWithoutEmbeddings = z.infer<typeof artworkWithoutEmbeddingSch
 export const artworksWithoutEmbeddingsSchema = z.array(artworkRecordSchema.omit({ embeddings: true }));
 export type ArtworksWithoutEmbeddings = z.infer<typeof artworksWithoutEmbeddingsSchema>;
 
-//Artwork Serach results
+// Artwork Serach Results
 export const artworkSearchResultsSchema = z.array(
 	artworkRecordSchema.pick({
 		objectID: true,
@@ -42,7 +41,7 @@ export const artworkSearchResultsSchema = z.array(
 );
 export type ArtworkSearchResults = z.infer<typeof artworkSearchResultsSchema>;
 
-// vectorize metadata
+// Vectorize Metadata
 export const vectorizeVectorMetadataSchema = z.object({
 	artistDisplayName: z.string(),
 	objectDate: z.string(),
@@ -52,9 +51,10 @@ export const vectorizeVectorMetadataSchema = z.object({
 });
 export type VectorizeVectorMetadata = z.infer<typeof vectorizeVectorMetadataSchema>;
 
-// vectorize match
+// Vectorize Match
 const vectorizeMatchSchema = z.object({
 	metadata: vectorizeVectorMetadataSchema,
 });
+// Vectorize Matches
 export const vectorizeMatchesSchema = z.array(vectorizeMatchSchema);
 export type VectorizeMatch = z.infer<typeof vectorizeMatchesSchema>;
