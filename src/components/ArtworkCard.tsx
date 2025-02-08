@@ -10,20 +10,16 @@ const ArtworkCard = ({
 	return (
 		<article style={{ display: 'flex', flexDirection: 'column' }}>
 			<img src={primaryImageSmall} alt={title} />
-			<p>
+			<div style={{ flexGrow: 1, marginTop: '15px' }}>
 				<h5>{title}</h5>
-				<div>
-					<i>{artistDisplayName}</i>
-					<p>{objectDate}</p>
-				</div>
-			</p>
-			<div style={{ marginTop: 'auto' }}>
-				<form action={`/artwork/${objectID}`} method="get">
-					<button className="outline" type="submit">
-						Find Similar
-					</button>
-				</form>
+				<i>{artistDisplayName}</i>
+				<p>{objectDate}</p>
 			</div>
+			<form action={`/artwork/${objectID}`} method="get" style={{ marginBottom: '0px' }}>
+				<button className="outline" type="submit">
+					Find Similar
+				</button>
+			</form>
 		</article>
 	);
 };

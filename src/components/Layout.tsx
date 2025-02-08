@@ -14,8 +14,8 @@ const Layout: FC = (props) => {
 				<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 				<style>{globalStyles}</style>
 			</head>
-			<body>
-				<div class="container">{props.children}</div>
+			<body class="container">
+				{props.children}
 				<footer>
 					<hr />
 				</footer>
