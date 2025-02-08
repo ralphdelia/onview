@@ -8,20 +8,22 @@ const ArtworkCard = ({
 	objectID,
 }: ArtworkWithoutEmbeddings | VectorizeVectorMetadata) => {
 	return (
-		<article>
-			<img src={primaryImageSmall} />
+		<article style={{ display: 'flex', flexDirection: 'column' }}>
+			<img src={primaryImageSmall} alt={title} />
 			<p>
 				<h5>{title}</h5>
-				<div style="display: inline-block;">
+				<div>
 					<i>{artistDisplayName}</i>
-					<p> {objectDate}</p>
+					<p>{objectDate}</p>
 				</div>
 			</p>
-			<form action={`/artwork/${objectID}`} method="get">
-				<button class="outline" type="submit">
-					Find Similar
-				</button>
-			</form>
+			<div style={{ marginTop: 'auto' }}>
+				<form action={`/artwork/${objectID}`} method="get">
+					<button className="outline" type="submit">
+						Find Similar
+					</button>
+				</form>
+			</div>
 		</article>
 	);
 };

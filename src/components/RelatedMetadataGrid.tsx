@@ -1,7 +1,7 @@
 import { VectorizeMatch, VectorizeVectorMetadata } from '../types';
 import ArtworkCard from './ArtworkCard';
 
-const RelatedMetadataGrid = ({ relatedArtworks }: { relatedArtworks: VectorizeMatch[] }) => {
+const RelatedMetadataGrid = ({ relatedArtworks }: { relatedArtworks: VectorizeMatch }) => {
 	const pairs = relatedArtworks.reduce((acc, obj) => {
 		if (acc.length === 0 || acc[acc.length - 1].length === 3) {
 			acc.push([obj.metadata]);

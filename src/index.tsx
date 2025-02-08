@@ -1,6 +1,12 @@
 import { Hono } from 'hono';
 import ArtworkPage from './pages/ArtworkPage';
-import { Bindings, ArtworkWithoutEmbeddings, VectorizeMatch, SearchableData } from './types';
+import {
+	Bindings,
+	artworksWithoutEmbeddingsSchema,
+	artworkSearchResultsSchema,
+	vectorizeMatchesSchema,
+	artworkRecordSchema,
+} from './types';
 import ExplorePage from './pages/ExplorePage';
 import ArtworksGrid from './components/ArtworksGrid';
 import NotFound from './pages/NotFound';
@@ -8,7 +14,6 @@ import HomePage from './pages/HomePage';
 import SearchPage from './pages/SearchPage';
 import SearchRows from './components/SearchRows';
 import AboutPage from './pages/AboutPage';
-import { isArtworkRecord, toArtworkWithoutEmbedding, toSearchableData, toVectorizeMatches } from './utils';
 
 const app = new Hono<{ Bindings: Bindings }>();
 
@@ -39,18 +44,18 @@ app.get('/artwork/:id', async (c) => {
 `);
 
 	const { results } = await stmt.bind(id).run();
-	const selectedArtwork = results[0];
-	if (!isArtworkRecord(selectedArtwork)) return c.html(<NotFound />);
+	const selectedArtwork = artworkRecordSchema.parse(results[0]);
 
 	const embeddings = JSON.parse(selectedArtwork.embeddings);
-	const matches = await c.env.VECTORIZE.query(embeddings, {
+	const { matches } = await c.env.VECTORIZE.query(embeddings, {
 		returnMetadata: true,
 		topK: 18,
 		filter: { objectID: { $ne: id } },
 	});
-	const transformedMatches: VectorizeMatch[] = toVectorizeMatches(matches);
 
-	return c.html(<ArtworkPage artworkInfo={selectedArtwork} relatedArtworks={transformedMatches} />);
+	const relatedArtworks = vectorizeMatchesSchema.parse(matches);
+
+	return c.html(<ArtworkPage artworkInfo={selectedArtwork} relatedArtworks={relatedArtworks} />);
 });
 
 app.get('/explore', async (c) => {
@@ -74,7 +79,7 @@ app.get('/explore', async (c) => {
     LIMIT 30
          `);
 	const { results } = await stmt.run();
-	const artworks: ArtworkWithoutEmbeddings[] = toArtworkWithoutEmbedding(results);
+	const artworks = artworksWithoutEmbeddingsSchema.parse(results);
 
 	return c.html(<ExplorePage artworks={artworks} />);
 });
@@ -117,7 +122,7 @@ app.get('/api/explore', async (c) => {
 			</button>,
 		);
 	}
-	const artworks: ArtworkWithoutEmbeddings[] = toArtworkWithoutEmbedding(results);
+	const artworks = artworksWithoutEmbeddingsSchema.parse(results);
 
 	return c.html(<ArtworksGrid artworks={artworks} pageNumber={pageNumber} />);
 });
@@ -158,7 +163,7 @@ app.post('/search', async (c) => {
       artist_display_name ASC
     `);
 	const { results } = await stmt.bind(`%${searchTerm}%`, `%${searchTerm}%`).all();
-	const searchableData: SearchableData[] = toSearchableData(results);
+	const searchableData = artworkSearchResultsSchema.parse(results);
 
 	return c.html(<SearchRows results={searchableData} />);
 });

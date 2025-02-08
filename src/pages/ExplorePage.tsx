@@ -1,9 +1,9 @@
 import Layout from '../components/Layout';
 import NavBar from '../components/NavBar';
 import ArtworksGrid from '../components/ArtworksGrid';
-import { ArtworkWithoutEmbeddings } from '../types';
+import { ArtworksWithoutEmbeddings } from '../types';
 
-const ExplorePage = ({ artworks }: { artworks: ArtworkWithoutEmbeddings[] }) => {
+const ExplorePage = ({ artworks }: { artworks: ArtworksWithoutEmbeddings }) => {
 	return (
 		<Layout>
 			<NavBar />

@@ -1,58 +1,77 @@
-import { html } from 'hono/html';
 import { ReactNode } from 'hono/jsx';
+import { FC } from 'hono/jsx';
 
-const Layout = (props: { children: ReactNode }) => {
-	return html`
-		<!doctype html>
-		<html lang="en" data-theme="light">
+const Layout: FC = (props) => {
+	return (
+		<html>
 			<head>
 				<meta charset="UTF-8" />
 				<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 				<meta http-equiv="X-UA-Compatible" content="ie=edge" />
 				<title>OnView</title>
+				<link rel="dns-prefetch" href="https://collectionapi.metmuseum.org" />
 				<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.orange.min.css" />
 				<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-				<style>
-					#theme-toggle-icon {
-						position: relative;
-					}
+				<style>{globalStyles}</style>
+			</head>
+			<body>
+				<div class="container">{props.children}</div>
+				<footer>
+					<hr />
+				</footer>
 
-					#theme-toggle-icon:hover {
+				<script dangerouslySetInnerHTML={{ __html: scriptContent }} />
+
+				{/* Cloudflare Web Analytics (also a script) */}
+				<script
+					defer
+					src="https://static.cloudflareinsights.com/beacon.min.js"
+					data-cf-beacon='{"token": "e5f6e59d47a94bc39051eb450ed41f11"}'
+				/>
+			</body>
+		</html>
+	);
+};
+
+export default Layout;
+
+const globalStyles = `
+					#theme-toggle-icon {
+					  position: relative;
+					  display: inline-block;
 						cursor: pointer;
 					}
 
 					#theme-toggle-icon .material-icons {
-						transition: opacity 0.3s ease;
+					    position: absolute;
+					    top: 0;
+					    left: 0;
 					}
 
-					.material-icons {
-						position: absolute;
+					#theme-toggle-icon .material-icons.dark {
+					    color: var(--pico-muted-color);
+					    opacity: 0;
 					}
 
-					.material-icons.dark {
-						color: var(--pico-muted-color);
-						transition: opacity 0.3s ease;
+					#theme-toggle-icon .material-icons.light {
+					    color: var(--pico-primary);
+					    opacity: 0;
 					}
 
-					.material-icons.light {
-						color: var(--pico-primary);
-						transition: opacity 0.3s ease;
+					[data-theme=dark] #theme-toggle-icon .material-icons.light {
+					    opacity: 1;
 					}
 
-					html[data-theme='dark'] #theme-toggle-icon .material-icons.light {
-						opacity: 1;
+					[data-theme=dark] #theme-toggle-icon .material-icons.dark {
+					    opacity: 0;
 					}
 
-					html[data-theme='dark'] #theme-toggle-icon .material-icons.dark {
-						opacity: 0;
+					[data-theme=light] #theme-toggle-icon .material-icons.light {
+					    opacity: 0;
 					}
 
-					html[data-theme='light'] #theme-toggle-icon .material-icons.light {
-						opacity: 0;
-					}
-
-					html[data-theme='light'] #theme-toggle-icon .material-icons.dark {
-						opacity: 1;
+					[data-theme=light] #theme-toggle-icon .material-icons.dark {
+					    opacity: 1;
 					}
 
 					:root {
@@ -132,98 +151,81 @@ const Layout = (props: { children: ReactNode }) => {
 						gap: 30px;
 						margin-bottom: 60px;
 					}
-				</style>
-			</head>
-			<script>
-				document.addEventListener('DOMContentLoaded', () => {
-					const themePreference = localStorage.getItem('theme');
-					if (themePreference) {
-						document.documentElement.dataset.theme = themePreference;
-					}
+					`;
 
-					document.getElementById('theme-toggle-icon').addEventListener('click', (e) => {
+const scriptContent = `
+		document.addEventListener('DOMContentLoaded', () => {
+			const themePreference = localStorage.getItem('theme');
+			if (themePreference) {
+				document.documentElement.dataset.theme = themePreference;
+			}
+
+			document.getElementById('theme-toggle-icon').addEventListener('click', (e) => {
+				e.preventDefault();
+				const htmlElement = document.documentElement;
+				let newTheme;
+				if (htmlElement.dataset.theme === 'light') {
+					newTheme = 'dark';
+				} else {
+					newTheme = 'light';
+				}
+				htmlElement.dataset.theme = newTheme;
+				localStorage.setItem('theme', newTheme);
+			});
+
+			if (window.location.pathname === '/explore') {
+				const addLoadButtonListener = () => {
+					const loadMoreButton = document.getElementById('load-more-btn');
+
+					loadMoreButton.addEventListener('click', async (e) => {
 						e.preventDefault();
-						const htmlElement = document.documentElement;
-						let newTheme;
-						if (htmlElement.dataset.theme === 'light') {
-							newTheme = 'dark';
-						} else {
-							newTheme = 'light';
+						const action = e.currentTarget.dataset.action;
+						try {
+							const res = await fetch(action);
+
+							if (!res.ok) {
+								throw new Error('Non 200 Response');
+							}
+
+							const resHTML = await res.text();
+							loadMoreButton.outerHTML = resHTML;
+						} catch (e) {
+							console.error('Error fetching: ' + action, e);
 						}
-						htmlElement.dataset.theme = newTheme;
-						localStorage.setItem('theme', newTheme);
+
+						addLoadButtonListener(); // Add listener for new button
 					});
+				};
 
-					if (window.location.pathname === '/explore') {
-						const addLoadButtonListener = () => {
-							const loadMoreButton = document.getElementById('load-more-btn');
+				addLoadButtonListener();
+			}
 
-							loadMoreButton.addEventListener('click', async (e) => {
-								e.preventDefault();
-								const action = e.currentTarget.dataset.action;
-								try {
-									const res = await fetch(action);
+			if (window.location.pathname === '/search') {
+				const searchBox = document.querySelector('input[type=search]');
+				let timeoutId;
+				searchBox.addEventListener('input', (e) => {
+					clearInterval(timeoutId);
 
-									if (!res.ok) {
-										throw new Error('Non 200 Response');
-									}
-
-									const resHTML = await res.text();
-									loadMoreButton.outerHTML = resHTML;
-								} catch (e) {
-									console.error('Error fetching: ' + action, e);
-								}
-
-								addLoadButtonListener(); // Add listener for new button
+					const searchTerm = e.target.value;
+					timeoutId = setTimeout(async () => {
+						try {
+							const res = await fetch('/search', {
+								method: 'POST',
+								headers: { 'Content-Type': 'application/json' },
+								body: JSON.stringify({ searchTerm }),
 							});
-						};
 
-						addLoadButtonListener();
-					}
+							if (!res.ok) {
+								throw new Error('Non 200 response');
+							}
 
-					if (window.location.pathname === '/search') {
-						const searchBox = document.querySelector('input[type=search]');
-						let timeoutId;
-						searchBox.addEventListener('input', (e) => {
-							clearInterval(timeoutId);
-
-							const searchTerm = e.target.value;
-							timeoutId = setTimeout(async () => {
-								try {
-									const res = await fetch('/search', {
-										method: 'POST',
-										headers: { 'Content-Type': 'application/json' },
-										body: JSON.stringify({ searchTerm }),
-									});
-
-									if (!res.ok) {
-										throw new Error('Non 200 response');
-									}
-
-									const tableRows = await res.text();
-									document.getElementById('search-results').innerHTML = tableRows;
-								} catch (e) {
-									console.error('Error fetching search results', e);
-								}
-							}, 500);
-						});
-					}
+							const tableRows = await res.text();
+							document.getElementById('search-results').innerHTML = tableRows;
+						} catch (e) {
+							console.error('Error fetching search results', e);
+						}
+					}, 500);
 				});
-			</script>
-			<body class="container">
-				${props.children}
-				<footer>
-					<hr />
-				</footer>
-				<!-- Cloudflare Web Analytics -->
-				<script
-					defer
-					src="https://static.cloudflareinsights.com/beacon.min.js"
-					data-cf-beacon='{"token": "e5f6e59d47a94bc39051eb450ed41f11"}'
-				></script>
-				<!-- End Cloudflare Web Analytics -->
-			</body>
-		</html>
-	`;
-};
-export default Layout;
+			}
+		});
+     `;

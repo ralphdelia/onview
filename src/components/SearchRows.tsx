@@ -1,6 +1,6 @@
-import { SearchParams } from '../types';
+import { ArtworkSearchResults } from '../types';
 
-const SearchRows = ({ results }: { results: SearchParams[] }) => {
+const SearchRows = ({ results }: { results: ArtworkSearchResults }) => {
 	const MAX_LINE_LEN = 30;
 	return (
 		<>
