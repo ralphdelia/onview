@@ -3,6 +3,9 @@ import { z } from 'zod';
 export interface Bindings {
 	DB: D1Database;
 	VECTORIZE: Vectorize;
+	ASSETS: {
+		fetch: (url: string | Request) => Promise<Response>;
+	};
 }
 
 // Full artwork record
