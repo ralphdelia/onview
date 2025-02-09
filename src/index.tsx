@@ -1,4 +1,5 @@
 import { Hono } from 'hono';
+
 import ArtworkPage from './pages/ArtworkPage';
 import {
 	Bindings,
@@ -16,7 +17,6 @@ import SearchRows from './components/SearchRows';
 import AboutPage from './pages/AboutPage';
 
 const app = new Hono<{ Bindings: Bindings }>();
-
 app.get('/', (c) => {
 	return c.html(<HomePage />);
 });
