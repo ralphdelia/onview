@@ -6,4 +6,4 @@ You can visit the OnView site at [onview.dev](https://onview.dev/), and learn mo
 
 ## How It Works
 
-Uses embeddings from OpenAI's CLIP model to represent visual features. Compares artwork embeddings to find visual similarities. Powered by Cloudflare technologies: Workers, Hono, D1, and Vectorize.
+The project uses embeddings from OpenAI's CLIP model to represent visual features as vector embeddings. It uses Cloudflares vector database Vectorize to store and compare artwork embeddings at the edge. The vector embeddings represent a way to decern visual similarities between images allowing the application to share similar artwork to each individual artwork. The site uses the following Cloudflare technologies: Workers, Hono, D1, and Vectorize.
