@@ -4,7 +4,7 @@ OnView is a web application that allows users to discover visually similar paint
 
 ![An example of the OnView interface showing visually similar images.](./example.png)
 
-You can visit the OnView site at [onview.dev](https://onview.dev/), and learn more about the project on my [personal website](https://ralphdelia.github.io/pages/index.html#onview).
+You can visit the OnView site at [onview.dev](https://onview.dev/).
 
 ## How It Works
 
