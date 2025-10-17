@@ -22,6 +22,12 @@ const AboutPage = () => {
 					a user clicks the "Find Similar" button for a particular artwork, the embedding for that image is compared to the rest of the
 					dataset to provide the most visually similar artworks in the search results.
 				</p>
+				<p>
+					created by{' '}
+					<a target="_blank" href="https://ralphdelia.com/">
+						Ralph Delia
+					</a>
+				</p>
 			</article>
 			<br />
 		</Layout>
