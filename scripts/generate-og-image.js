@@ -29,7 +29,13 @@ async function generateOGImage() {
 		await page.waitForSelector('h1', { timeout: 10000 });
 		await page.waitForSelector('.button-container', { timeout: 10000 });
 
-		const outputPath = path.resolve(__dirname, '..', 'public', 'static', 'og-image.jpg');
+		const outputPath = path.resolve(
+			__dirname,
+			'..',
+			'public',
+			'static',
+			'og-image.jpg',
+		);
 
 		await page.screenshot({
 			path: outputPath,

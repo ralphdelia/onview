@@ -3,10 +3,18 @@ const Search = () => {
 		<>
 			<h1>Search</h1>
 			<p class="tagline">
-				Find approximately 2000 paintings that are currently on display at the Metropolitan Museum of Art and are part of its{' '}
-				<a href="https://www.metmuseum.org/about-the-met/policies-and-documents/open-access">Open Access Initiative</a>.
+				Find approximately 2000 paintings that are currently on display at the
+				Metropolitan Museum of Art and are part of its{' '}
+				<a href="https://www.metmuseum.org/about-the-met/policies-and-documents/open-access">
+					Open Access Initiative
+				</a>
+				.
 			</p>
-			<input type="search" name="searchTerm" placeholder="Begin Typing Search To By Titles or Artists..." />
+			<input
+				type="search"
+				name="searchTerm"
+				placeholder="Begin Typing Search To By Titles or Artists..."
+			/>
 
 			<table>
 				<thead>

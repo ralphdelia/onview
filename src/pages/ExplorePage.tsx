@@ -15,8 +15,9 @@ const ExplorePage = ({ artworks }: { artworks: ArtworksWithoutEmbeddings }) => {
 			<div id="container">
 				<h1>Explore</h1>
 				<p class="tagline">
-					Discover connections between artworks from the Met Museum's collection by clicking <strong>"Find Similar"</strong> below each
-					painting to reveal hidden relationships within the collection.
+					Discover connections between artworks from the Met Museum's collection
+					by clicking <strong>"Find Similar"</strong> below each painting to
+					reveal hidden relationships within the collection.
 				</p>
 				<ArtworksGrid artworks={artworks} pageNumber={1} />
 			</div>

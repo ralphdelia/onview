@@ -47,14 +47,20 @@ const MainArtworkCard = ({ artworkInfo }: { artworkInfo: ArtworkRecord }) => {
 							<strong>Gallery:</strong> {galleryNumber}
 						</p>
 					)}
-					{isHighlight === 'TRUE' && <p className="highlight">Highlighted Artwork</p>}
+					{isHighlight === 'TRUE' && (
+						<p className="highlight">Highlighted Artwork</p>
+					)}
 					{artistDisplayBio && (
 						<p>
 							<em>{artistDisplayBio}</em>
 						</p>
 					)}
 					<p>
-						<a href={`https://www.metmuseum.org/art/collection/search/${objectID}`}>View on metmuseum.org &rarr;</a>
+						<a
+							href={`https://www.metmuseum.org/art/collection/search/${objectID}`}
+						>
+							View on metmuseum.org &rarr;
+						</a>
 					</p>
 				</div>
 			</div>

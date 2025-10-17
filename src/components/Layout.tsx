@@ -11,7 +11,9 @@ interface LayoutProps {
 
 const Layout = (props: LayoutProps) => {
 	const title = props.title ?? 'OnView';
-	const description = props.description ?? "Discover visually similar paintings from the Metropolitan Museum of Art's collection";
+	const description =
+		props.description ??
+		"Discover visually similar paintings from the Metropolitan Museum of Art's collection";
 	const image = props.image ?? 'https://onview.dev/static/og-image.jpg';
 	const url = props.url ?? 'https://onview.dev';
 
@@ -43,8 +45,14 @@ const Layout = (props: LayoutProps) => {
 					href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🖼️</text></svg>"
 				/>
 				<link rel="dns-prefetch" href="https://collectionapi.metmuseum.org" />
-				<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.orange.min.css" />
-				<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+				<link
+					rel="stylesheet"
+					href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.orange.min.css"
+				/>
+				<link
+					href="https://fonts.googleapis.com/icon?family=Material+Icons"
+					rel="stylesheet"
+				/>
 				<script src="/static/javascript/theme.js"></script>
 				{props.scripts?.map((script) => (
 					<script src={script}></script>

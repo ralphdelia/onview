@@ -12,8 +12,9 @@ const HomePage = () => {
 			<NavBar />
 			<h1>OnView</h1>
 			<p class="tagline">
-				A way to discover visually similar paintings that are part of the Metropolitan Museum of Art's Open Access Initiative. Find
-				paintings you love and explore connections across the collection.
+				A way to discover visually similar paintings that are part of the
+				Metropolitan Museum of Art's Open Access Initiative. Find paintings you
+				love and explore connections across the collection.
 				<br />
 			</p>
 			<div class="button-container">
@@ -33,7 +34,9 @@ const HomePage = () => {
 					/>
 				</a>
 				<figcaption>
-					<small>Still Life with Apples and a Pot of Primroses, Paul Cézanne</small>
+					<small>
+						Still Life with Apples and a Pot of Primroses, Paul Cézanne
+					</small>
 				</figcaption>
 			</figure>
 		</Layout>

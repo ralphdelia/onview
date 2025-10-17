@@ -26,12 +26,20 @@ export const artworkRecordSchema = z.object({
 export type ArtworkRecord = z.infer<typeof artworkRecordSchema>;
 
 // Without embeddings
-export const artworkWithoutEmbeddingSchema = artworkRecordSchema.omit({ embeddings: true });
-export type ArtworkWithoutEmbeddings = z.infer<typeof artworkWithoutEmbeddingSchema>;
+export const artworkWithoutEmbeddingSchema = artworkRecordSchema.omit({
+	embeddings: true,
+});
+export type ArtworkWithoutEmbeddings = z.infer<
+	typeof artworkWithoutEmbeddingSchema
+>;
 
 // Array of Artworks without embeddings
-export const artworksWithoutEmbeddingsSchema = z.array(artworkRecordSchema.omit({ embeddings: true }));
-export type ArtworksWithoutEmbeddings = z.infer<typeof artworksWithoutEmbeddingsSchema>;
+export const artworksWithoutEmbeddingsSchema = z.array(
+	artworkRecordSchema.omit({ embeddings: true }),
+);
+export type ArtworksWithoutEmbeddings = z.infer<
+	typeof artworksWithoutEmbeddingsSchema
+>;
 
 // Artwork Serach Results
 export const artworkSearchResultsSchema = z.array(
@@ -52,7 +60,9 @@ export const vectorizeVectorMetadataSchema = z.object({
 	primaryImageSmall: z.string(),
 	title: z.string(),
 });
-export type VectorizeVectorMetadata = z.infer<typeof vectorizeVectorMetadataSchema>;
+export type VectorizeVectorMetadata = z.infer<
+	typeof vectorizeVectorMetadataSchema
+>;
 
 // Vectorize Match
 const vectorizeMatchSchema = z.object({

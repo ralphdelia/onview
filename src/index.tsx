@@ -10,7 +10,12 @@ import HomePage from './pages/HomePage';
 import SearchPage from './pages/SearchPage';
 import SearchRows from './components/SearchRows';
 import AboutPage from './pages/AboutPage';
-import { getArtworkById, getRelatedArtworks, getArtworksPaginated, getRandomArtworkId } from './data/artworks';
+import {
+	getArtworkById,
+	getRelatedArtworks,
+	getArtworksPaginated,
+	getRandomArtworkId,
+} from './data/artworks';
 import { searchArtworks } from './data/search';
 
 const app = new Hono<{ Bindings: Bindings }>();
@@ -29,9 +34,18 @@ app.get('/artwork/:id', async (c) => {
 		}
 
 		const embeddings = JSON.parse(selectedArtwork.embeddings);
-		const relatedArtworks = await getRelatedArtworks(c.env.VECTORIZE, embeddings, id);
+		const relatedArtworks = await getRelatedArtworks(
+			c.env.VECTORIZE,
+			embeddings,
+			id,
+		);
 
-		return c.html(<ArtworkPage artworkInfo={selectedArtwork} relatedArtworks={relatedArtworks} />);
+		return c.html(
+			<ArtworkPage
+				artworkInfo={selectedArtwork}
+				relatedArtworks={relatedArtworks}
+			/>,
+		);
 	} catch (error) {
 		console.error('Error loading artwork:', error);
 		return c.html(<ErrorPage />, 500);

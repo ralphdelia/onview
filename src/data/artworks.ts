@@ -1,7 +1,18 @@
-import type { ArtworkRecord, ArtworksWithoutEmbeddings, VectorizeMatch } from '../types';
-import { artworkRecordSchema, artworksWithoutEmbeddingsSchema, vectorizeMatchesSchema } from '../types';
+import type {
+	ArtworkRecord,
+	ArtworksWithoutEmbeddings,
+	VectorizeMatch,
+} from '../types';
+import {
+	artworkRecordSchema,
+	artworksWithoutEmbeddingsSchema,
+	vectorizeMatchesSchema,
+} from '../types';
 
-export async function getArtworkById(db: D1Database, id: string): Promise<ArtworkRecord | null> {
+export async function getArtworkById(
+	db: D1Database,
+	id: string,
+): Promise<ArtworkRecord | null> {
 	const stmt = db.prepare(`
 	SELECT
     object_id AS "objectID",
@@ -30,7 +41,11 @@ export async function getArtworkById(db: D1Database, id: string): Promise<Artwor
 	return artworkRecordSchema.parse(results[0]);
 }
 
-export async function getRelatedArtworks(vectorize: Vectorize, embeddings: number[], excludeId: string): Promise<VectorizeMatch> {
+export async function getRelatedArtworks(
+	vectorize: Vectorize,
+	embeddings: number[],
+	excludeId: string,
+): Promise<VectorizeMatch> {
 	const { matches } = await vectorize.query(embeddings, {
 		returnMetadata: true,
 		topK: 18,
@@ -40,7 +55,11 @@ export async function getRelatedArtworks(vectorize: Vectorize, embeddings: numbe
 	return vectorizeMatchesSchema.parse(matches);
 }
 
-export async function getArtworksPaginated(db: D1Database, limit: number, offset: number): Promise<ArtworksWithoutEmbeddings> {
+export async function getArtworksPaginated(
+	db: D1Database,
+	limit: number,
+	offset: number,
+): Promise<ArtworksWithoutEmbeddings> {
 	const stmt = db.prepare(`
     SELECT
       object_id AS "objectID",

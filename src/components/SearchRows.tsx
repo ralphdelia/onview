@@ -15,12 +15,20 @@ const SearchRows = ({ results }: { results: ArtworkSearchResults }) => {
 					<tr key={objectID}>
 						<td>
 							<a href={`artwork/${objectID}`}>
-								{title.length > MAX_LINE_LEN ? <span data-tooltip={title}>{title.slice(0, MAX_LINE_LEN) + '...'}</span> : title}
+								{title.length > MAX_LINE_LEN ? (
+									<span data-tooltip={title}>
+										{title.slice(0, MAX_LINE_LEN) + '...'}
+									</span>
+								) : (
+									title
+								)}
 							</a>
 						</td>
 						<td>
 							{artistDisplayName.length > MAX_LINE_LEN ? (
-								<span data-tooltip={artistDisplayName}>{artistDisplayName.slice(0, MAX_LINE_LEN) + '...'}</span>
+								<span data-tooltip={artistDisplayName}>
+									{artistDisplayName.slice(0, MAX_LINE_LEN) + '...'}
+								</span>
 							) : (
 								artistDisplayName
 							)}

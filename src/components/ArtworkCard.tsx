@@ -15,7 +15,11 @@ const ArtworkCard = ({
 				<i>{artistDisplayName}</i>
 				<p>{objectDate}</p>
 			</div>
-			<form action={`/artwork/${objectID}`} method="get" style={{ marginBottom: '0px' }}>
+			<form
+				action={`/artwork/${objectID}`}
+				method="get"
+				style={{ marginBottom: '0px' }}
+			>
 				<button className="outline" type="submit">
 					Find Similar
 				</button>
