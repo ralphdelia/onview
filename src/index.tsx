@@ -1,20 +1,17 @@
 import { Hono } from 'hono';
 
 import ArtworkPage from './pages/ArtworkPage';
-import {
-	Bindings,
-	artworksWithoutEmbeddingsSchema,
-	artworkSearchResultsSchema,
-	vectorizeMatchesSchema,
-	artworkRecordSchema,
-} from './types';
+import { Bindings } from './types';
 import ExplorePage from './pages/ExplorePage';
 import ArtworksGrid from './components/ArtworksGrid';
 import NotFound from './pages/NotFound';
+import ErrorPage from './pages/ErrorPage';
 import HomePage from './pages/HomePage';
 import SearchPage from './pages/SearchPage';
 import SearchRows from './components/SearchRows';
 import AboutPage from './pages/AboutPage';
+import { getArtworkById, getRelatedArtworks, getArtworksPaginated, getRandomArtworkId } from './data/artworks';
+import { searchArtworks } from './data/search';
 
 const app = new Hono<{ Bindings: Bindings }>();
 app.get('/', (c) => {
@@ -22,129 +19,70 @@ app.get('/', (c) => {
 });
 
 app.get('/artwork/:id', async (c) => {
-	const id = c.req.param('id');
-	const stmt = c.env.DB.prepare(`
-	SELECT
-    object_id AS "objectID",
-    is_highlight AS "isHighlight",
-    primary_image_small AS "primaryImageSmall",
-    title AS "title",
-    culture AS "culture",
-    artist_display_name AS "artistDisplayName",
-    artist_display_bio AS "artistDisplayBio",
-    object_date AS "objectDate",
-    medium AS "medium",
-    dimensions AS "dimensions",
-    gallery_number AS "galleryNumber",
-    embeddings
-  FROM
-      artworks
-  WHERE
-      object_id = ?;
-`);
+	try {
+		const id = c.req.param('id');
 
-	const { results } = await stmt.bind(id).run();
-	if (!results[0]) {
-		return c.html(<NotFound />);
+		const selectedArtwork = await getArtworkById(c.env.DB, id);
+
+		if (!selectedArtwork) {
+			return c.html(<NotFound message="artwork not found" />, 404);
+		}
+
+		const embeddings = JSON.parse(selectedArtwork.embeddings);
+		const relatedArtworks = await getRelatedArtworks(c.env.VECTORIZE, embeddings, id);
+
+		return c.html(<ArtworkPage artworkInfo={selectedArtwork} relatedArtworks={relatedArtworks} />);
+	} catch (error) {
+		console.error('Error loading artwork:', error);
+		return c.html(<ErrorPage />, 500);
 	}
-
-	const selectedArtwork = artworkRecordSchema.parse(results[0]);
-
-	const embeddings = JSON.parse(selectedArtwork.embeddings);
-	const { matches } = await c.env.VECTORIZE.query(embeddings, {
-		returnMetadata: true,
-		topK: 18,
-		filter: { objectID: { $ne: id } },
-	});
-
-	const relatedArtworks = vectorizeMatchesSchema.parse(matches);
-
-	return c.html(<ArtworkPage artworkInfo={selectedArtwork} relatedArtworks={relatedArtworks} />);
 });
 
 app.get('/explore', async (c) => {
-	const stmt = c.env.DB.prepare(`
-    SELECT
-      object_id AS "objectID",
-      is_highlight AS "isHighlight",
-      primary_image_small AS "primaryImageSmall",
-      title AS "title",
-      culture AS "culture",
-      artist_display_name AS "artistDisplayName",
-      artist_display_bio AS "artistDisplayBio",
-      object_date AS "objectDate",
-      medium AS "medium",
-      dimensions AS "dimensions",
-      gallery_number AS "galleryNumber"
-    FROM
-      artworks
-    ORDER BY
-      id ASC
-    LIMIT 30
-         `);
-	const { results } = await stmt.run();
-	const artworks = artworksWithoutEmbeddingsSchema.parse(results);
-
-	return c.html(<ExplorePage artworks={artworks} />);
+	try {
+		const artworks = await getArtworksPaginated(c.env.DB, 30, 0);
+		return c.html(<ExplorePage artworks={artworks} />);
+	} catch (error) {
+		console.error('Error loading explore page:', error);
+		return c.html(<ErrorPage />, 500);
+	}
 });
 
 app.get('/api/explore', async (c) => {
-	let pageParam = c.req.query('page');
-	if (!pageParam) return c.html(<p>An unexpected error occured..</p>);
+	try {
+		let pageParam = c.req.query('page');
+		if (!pageParam) return c.html(<p>An unexpected error occured..</p>);
 
-	const pageNumber = parseInt(pageParam, 10);
-	if (isNaN(pageNumber)) return c.html(<p>An unexpected error occured..</p>);
+		const pageNumber = parseInt(pageParam, 10);
+		if (isNaN(pageNumber)) return c.html(<p>An unexpected error occured..</p>);
 
-	const limit = 30;
-	const offset = 30 * (pageNumber - 1);
-	const stmt = c.env.DB.prepare(`
-    SELECT
-      object_id AS "objectID",
-      is_highlight AS "isHighlight",
-      primary_image_small AS "primaryImageSmall",
-      title AS "title",
-      culture AS "culture",
-      artist_display_name AS "artistDisplayName",
-      artist_display_bio AS "artistDisplayBio",
-      object_date AS "objectDate",
-      medium AS "medium",
-      dimensions AS "dimensions",
-      gallery_number AS "galleryNumber"
-    FROM
-      artworks
-    ORDER BY
-      id ASC
-    LIMIT ?
-    OFFSET ?
-    `);
-	const { results } = await stmt.bind(limit, offset).all();
+		const limit = 30;
+		const offset = 30 * (pageNumber - 1);
+		const artworks = await getArtworksPaginated(c.env.DB, limit, offset);
 
-	if (results.length === 0) {
-		return c.html(
-			<button class="load" disabled>
-				Load More
-			</button>,
-		);
+		if (artworks.length === 0) {
+			return c.html(
+				<button class="load" disabled>
+					Load More
+				</button>,
+			);
+		}
+
+		return c.html(<ArtworksGrid artworks={artworks} pageNumber={pageNumber} />);
+	} catch (error) {
+		console.error('Error loading more artworks:', error);
+		return c.html(<p>An unexpected error occured..</p>);
 	}
-	const artworks = artworksWithoutEmbeddingsSchema.parse(results);
-
-	return c.html(<ArtworksGrid artworks={artworks} pageNumber={pageNumber} />);
 });
 
 app.get('/random', async (c) => {
-	const stmt = c.env.DB.prepare(`
-    SELECT
-      object_id as "objectID"
-    FROM
-      artworks
-    ORDER BY
-      RANDOM()
-    LIMIT 1
-    `);
-	const { results } = await stmt.run();
-	const objectID = results[0].objectID;
-
-	return c.redirect(`/artwork/${objectID}`);
+	try {
+		const objectID = await getRandomArtworkId(c.env.DB);
+		return c.redirect(`/artwork/${objectID}`);
+	} catch (error) {
+		console.error('Error loading random artwork:', error);
+		return c.html(<ErrorPage />, 500);
+	}
 });
 
 app.get('/search', (c) => {
@@ -152,24 +90,14 @@ app.get('/search', (c) => {
 });
 
 app.post('/search', async (c) => {
-	const { searchTerm } = await c.req.json();
-	const stmt = c.env.DB.prepare(`
-    SELECT
-      object_id AS "objectID",
-      is_highlight AS "isHighlight",
-      title,
-      artist_display_name AS "artistDisplayName"
-    FROM
-      artworks
-    WHERE
-      title LIKE ? OR artist_display_name LIKE ?
-    ORDER BY
-      artist_display_name ASC
-    `);
-	const { results } = await stmt.bind(`%${searchTerm}%`, `%${searchTerm}%`).all();
-	const searchableData = artworkSearchResultsSchema.parse(results);
-
-	return c.html(<SearchRows results={searchableData} />);
+	try {
+		const { searchTerm } = await c.req.json();
+		const searchableData = await searchArtworks(c.env.DB, searchTerm);
+		return c.html(<SearchRows results={searchableData} />);
+	} catch (error) {
+		console.error('Error searching artworks:', error);
+		return c.html(<p>An unexpected error occured..</p>);
+	}
 });
 
 app.get('/about', (c) => {
@@ -177,6 +105,6 @@ app.get('/about', (c) => {
 });
 
 // fallback
-app.get('*', (c) => c.html(<NotFound />));
+app.get('*', (c) => c.html(<NotFound message="page not found" />, 404));
 
 export default app;

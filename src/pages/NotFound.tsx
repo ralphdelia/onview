@@ -1,7 +1,11 @@
 import Layout from '../components/Layout';
 import NavBar from '../components/NavBar';
 
-const NotFound = () => {
+interface NotFoundProps {
+	message?: string;
+}
+
+const NotFound = ({ message = 'page not found' }: NotFoundProps) => {
 	return (
 		<Layout
 			title="Page Not Found - OnView"
@@ -9,7 +13,7 @@ const NotFound = () => {
 		>
 			<NavBar />
 			<h1>404</h1>
-			<p class="tagline">page not found</p>
+			<p class="tagline">{message}</p>
 		</Layout>
 	);
 };
