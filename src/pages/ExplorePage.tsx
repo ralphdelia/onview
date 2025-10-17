@@ -5,7 +5,12 @@ import { ArtworksWithoutEmbeddings } from '../types';
 
 const ExplorePage = ({ artworks }: { artworks: ArtworksWithoutEmbeddings }) => {
 	return (
-		<Layout>
+		<Layout
+			title="Explore Art Collection - OnView"
+			description="Browse and explore over 2000 paintings from the Metropolitan Museum of Art. Discover visually similar artworks using AI-powered visual search technology."
+			url="https://onview.dev/explore"
+			scripts={['/static/javascript/explore.js']}
+		>
 			<NavBar />
 			<div id="container">
 				<h1>Explore</h1>

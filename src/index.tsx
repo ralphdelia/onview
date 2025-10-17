@@ -44,6 +44,10 @@ app.get('/artwork/:id', async (c) => {
 `);
 
 	const { results } = await stmt.bind(id).run();
+	if (!results[0]) {
+		return c.html(<NotFound />);
+	}
+
 	const selectedArtwork = artworkRecordSchema.parse(results[0]);
 
 	const embeddings = JSON.parse(selectedArtwork.embeddings);

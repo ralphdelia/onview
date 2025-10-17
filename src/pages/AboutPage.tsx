@@ -3,7 +3,11 @@ import NavBar from '../components/NavBar';
 
 const AboutPage = () => {
 	return (
-		<Layout>
+		<Layout
+			title="About OnView - AI-Powered Art Discovery"
+			description="Learn how OnView uses OpenAI's CLIP model and Cloudflare's vector database to find visually similar artworks from the Metropolitan Museum of Art's collection."
+			url="https://onview.dev/about"
+		>
 			<NavBar />
 			<article>
 				<h1>About</h1>

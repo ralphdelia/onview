@@ -7,11 +7,13 @@
 		"dev": "wrangler dev --remote",
 		"start": "wrangler dev",
 		"test": "vitest",
-		"cf-typegen": "wrangler types"
+		"cf-typegen": "wrangler types",
+		"generate-og": "node scripts/generate-og-image.js"
 	},
 	"devDependencies": {
 		"@cloudflare/vitest-pool-workers": "^0.4.5",
 		"@cloudflare/workers-types": "^4.20250204.0",
+		"puppeteer": "^24.25.0",
 		"typescript": "^5.5.2",
 		"vitest": "1.5.0",
 		"wrangler": "^3.75.0"

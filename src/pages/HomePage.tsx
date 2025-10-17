@@ -3,7 +3,12 @@ import NavBar from '../components/NavBar';
 
 const HomePage = () => {
 	return (
-		<Layout>
+		<Layout
+			title="OnView - Discover Visually Similar Art from the Met Museum"
+			description="Discover visually similar paintings from the Metropolitan Museum of Art's Open Access collection using AI-powered visual search. Explore over 2000 artworks and find connections across cultures and time."
+			image="https://collectionapi.metmuseum.org/api/collection/v1/iiif/435882/796423/main-image"
+			url="https://onview.dev"
+		>
 			<NavBar />
 			<h1>OnView</h1>
 			<p class="tagline">

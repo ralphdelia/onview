@@ -4,7 +4,12 @@ import Search from '../components/Search';
 
 const SearchPage = () => {
 	return (
-		<Layout>
+		<Layout
+			title="Search Artworks - OnView"
+			description="Search through over 2000 paintings from the Metropolitan Museum of Art by title or artist name."
+			url="https://onview.dev/search"
+			scripts={['/static/javascript/search.js']}
+		>
 			<NavBar />
 			<Search />
 		</Layout>
