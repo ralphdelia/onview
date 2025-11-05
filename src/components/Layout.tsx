@@ -68,7 +68,7 @@ const Layout = (props: LayoutProps) => {
 				<script
 					defer
 					src="https://static.cloudflareinsights.com/beacon.min.js"
-					data-cf-beacon='{"token": "e5f6e59d47a94bc39051eb450ed41f11"}'
+					data-cf-beacon='{"token": "be205c65613a4ea6be3e2d694aae2db5"}'
 				/>
 			</body>
 		</html>
