@@ -7,7 +7,6 @@
 		"dev": "wrangler dev --remote",
 		"start": "wrangler dev",
 		"cf-typegen": "wrangler types",
-		"generate-og": "node scripts/generate-og-image.js",
 		"format": "prettier --write ."
 	},
 	"devDependencies": {
