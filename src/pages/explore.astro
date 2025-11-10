@@ -3,6 +3,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import NavBar from '../components/NavBar.astro';
 import ImageItem from '../components/ImageItem.astro';
 import { allArtworks } from '../lib/artworks';
+import { Masonry } from 'astro-masonry';
+
+// Get first 4 images for preloading (first visible row on desktop)
+const firstFourImages = allArtworks.slice(0, 4);
 ---
 
 <BaseLayout
@@ -10,16 +14,107 @@ import { allArtworks } from '../lib/artworks';
 	description="Browse and explore over 2000 paintings from the Metropolitan Museum of Art. Discover visually similar artworks using AI-powered visual search technology."
 	url="https://onview.dev/explore"
 >
+	<Fragment slot="head">
+		<!-- Preload first row of images for faster LCP -->
+		{firstFourImages.map((artwork) => (
+			<link 
+				rel="preload" 
+				as="image" 
+				href={artwork.images.medium}
+				imagesrcset={`${artwork.images.small} 400w, ${artwork.images.medium} 800w`}
+				imagesizes="(max-width: 1024px) 33vw, 25vw"
+			/>
+		))}
+	</Fragment>
 	<div class="container mx-auto px-4">
 		<h1 class="text-4xl font-bold text-gray-warm-100 text-center mb-4">Explore</h1>
 		<p class="text-gray-warm-300 text-center max-w-2xl mx-auto mb-8">
 			Discover connections between artworks from the Met Museum's collection. Click any artwork to view details and find visually similar pieces.
 		</p>
 
-		<div class="columns-2 md:columns-3 lg:columns-4 gap-4">
+		<Masonry 
+			breakpointCols={{default: 4, 1280: 3, 900: 2, 640: 1}}
+			class="masonry-grid"
+			columnClass="masonry-column"
+		>
 			{allArtworks.map((artwork, index) => (
 				<ImageItem artwork={artwork} lazy={index >= 30} />
 			))}
-		</div>
+		</Masonry>
 	</div>
+
+	<style>
+		:global(.masonry-grid) {
+			margin-left: -1rem;
+		}
+
+		:global(.masonry-column) {
+			padding-left: 1rem;
+			background-clip: padding-box;
+		}
+
+		:global(.masonry-column > *) {
+			margin-bottom: 1rem;
+		}
+	</style>
+
+	<script>
+		// Intersection Observer for lazy loading images
+		if ('IntersectionObserver' in window) {
+			const imageObserver = new IntersectionObserver(
+				(entries, observer) => {
+					entries.forEach((entry) => {
+						if (entry.isIntersecting) {
+							const img = entry.target as HTMLImageElement;
+							const src = img.getAttribute('data-src');
+							const srcset = img.getAttribute('data-srcset');
+							const sizes = img.getAttribute('data-sizes');
+
+							if (src) {
+								img.src = src;
+								if (srcset) img.srcset = srcset;
+								if (sizes) img.sizes = sizes;
+								
+								img.onload = () => {
+									// Hide skeleton and show image
+									const skeleton = img.previousElementSibling;
+									if (skeleton) skeleton.remove();
+									img.classList.remove('opacity-0');
+									img.classList.add('opacity-100');
+								};
+
+								observer.unobserve(img);
+							}
+						}
+					});
+				},
+				{
+					rootMargin: '50px 0px',
+					threshold: 0.01,
+				}
+			);
+
+			// Observe all lazy images
+			document.querySelectorAll('.lazy-image').forEach((img) => {
+				imageObserver.observe(img);
+			});
+		} else {
+			// Fallback for browsers without IntersectionObserver
+			document.querySelectorAll('.lazy-image').forEach((img) => {
+				const element = img as HTMLImageElement;
+				const src = element.getAttribute('data-src');
+				const srcset = element.getAttribute('data-srcset');
+				const sizes = element.getAttribute('data-sizes');
+				
+				if (src) element.src = src;
+				if (srcset) element.srcset = srcset;
+				if (sizes) element.sizes = sizes;
+				
+				const skeleton = element.previousElementSibling;
+				if (skeleton) skeleton.remove();
+				element.classList.remove('opacity-0');
+				element.classList.add('opacity-100');
+			});
+		}
+	</script>
 </BaseLayout>

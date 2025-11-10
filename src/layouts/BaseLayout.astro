@@ -26,6 +26,13 @@ const pageUrl = url ?? 'https://onview.dev';
 		<title>{pageTitle}</title>
 		<meta name="description" content={pageDescription} />
 
+		<!-- DNS Prefetch and Preconnect for image CDN -->
+		<link rel="dns-prefetch" href="https://images.onview.dev" />
+		<link rel="preconnect" href="https://images.onview.dev" crossorigin />
+
+		<!-- Allow pages to inject additional head elements -->
+		<slot name="head" />
+
 		<meta property="og:title" content={pageTitle} />
 		<meta property="og:description" content={pageDescription} />
 		<meta property="og:image" content={pageImage} />

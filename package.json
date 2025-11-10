@@ -23,6 +23,7 @@
 		"@astrojs/cloudflare": "^12.6.10",
 		"@tailwindcss/vite": "^4.1.17",
 		"astro": "^5.15.4",
+		"astro-masonry": "^1.2.2",
 		"tailwindcss": "^4.1.17"
 	}
 }
