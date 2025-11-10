@@ -1,0 +1,22 @@
+---
+import type { Artwork } from '../lib/artworks';
+
+interface Props {
+	artwork: Artwork;
+}
+
+const { artwork } = Astro.props;
+const { primaryImageSmall, title, artistDisplayName, objectDate, objectID } = artwork;
+---
+
+<article style={{ display: 'flex', flexDirection: 'column' }}>
+	<img src={primaryImageSmall} alt={title} />
+	<div style={{ flexGrow: 1, marginTop: '15px' }}>
+		<h5>{title}</h5>
+		<i>{artistDisplayName}</i>
+		<p>{objectDate}</p>
+	</div>
+	<a href={`/artwork/${objectID}`} style={{ marginBottom: '0px' }}>
+		<button class="outline">Find Similar</button>
+	</a>
+</article>

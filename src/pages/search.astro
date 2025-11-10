@@ -1,0 +1,89 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NavBar from '../components/NavBar.astro';
+import { allArtworks } from '../lib/artworks';
+---
+
+<BaseLayout
+	title="Search Artworks - OnView"
+	description="Search through over 2000 artworks from the Metropolitan Museum of Art's collection."
+	url="https://onview.dev/search"
+	scripts={['/static/javascript/search.js']}
+>
+	<NavBar />
+	<h1>Search</h1>
+	<p class="tagline">Search for artworks by title, artist, culture, or medium</p>
+	<input type="text" id="search-input" placeholder="Search artworks..." />
+	<div id="results"></div>
+</BaseLayout>
+
+<script>
+	import type { Artwork } from '../lib/artworks';
+	import artworksData from '../data/artworks.json';
+
+	const artworks: Artwork[] = artworksData.artworks;
+
+	const searchInput = document.getElementById('search-input') as HTMLInputElement;
+	const resultsContainer = document.getElementById('results') as HTMLDivElement;
+
+	searchInput?.addEventListener('input', (e) => {
+		const query = (e.target as HTMLInputElement).value.toLowerCase();
+
+		if (query.length < 2) {
+			resultsContainer.innerHTML = '';
+			return;
+		}
+
+		const results = artworks.filter(
+			(art) =>
+				art.title.toLowerCase().includes(query) ||
+				art.artistDisplayName.toLowerCase().includes(query) ||
+				art.culture.toLowerCase().includes(query) ||
+				art.medium.toLowerCase().includes(query),
+		);
+
+		// Group results into sets of 3
+		const sets = results.slice(0, 30).reduce(
+			(acc, obj) => {
+				if (acc.length === 0 || acc[acc.length - 1].length === 3) {
+					acc.push([obj]);
+				} else {
+					acc[acc.length - 1].push(obj);
+				}
+				return acc;
+			},
+			[] as Artwork[][],
+		);
+
+		if (results.length === 0) {
+			resultsContainer.innerHTML = '<p>No results found.</p>';
+			return;
+		}
+
+		resultsContainer.innerHTML = sets
+			.map(
+				(set) => `
+			<div class="grid">
+				${set
+					.map(
+						(art) => `
+					<article style="display: flex; flex-direction: column;">
+						<img src="${art.primaryImageSmall}" alt="${art.title}" />
+						<div style="flex-grow: 1; margin-top: 15px;">
+							<h5>${art.title}</h5>
+							<i>${art.artistDisplayName}</i>
+							<p>${art.objectDate}</p>
+						</div>
+						<a href="/artwork/${art.objectID}" style="margin-bottom: 0px;">
+							<button class="outline">Find Similar</button>
+						</a>
+					</article>
+				`,
+					)
+					.join('')}
+			</div>
+		`,
+			)
+			.join('');
+	});
+</script>

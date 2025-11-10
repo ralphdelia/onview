@@ -3,10 +3,11 @@
 	"version": "0.0.0",
 	"private": true,
 	"scripts": {
-		"deploy": "wrangler deploy",
-		"dev": "wrangler dev --remote",
-		"start": "wrangler dev",
-		"cf-typegen": "wrangler types",
+		"dev": "astro dev",
+		"start": "astro dev",
+		"build": "astro build",
+		"preview": "astro preview",
+		"deploy": "astro build && wrangler pages deploy ./dist",
 		"format": "prettier --write ."
 	},
 	"devDependencies": {
@@ -19,7 +20,9 @@
 		"wrangler": "^3.75.0"
 	},
 	"dependencies": {
-		"hono": "^4.5.11",
-		"zod": "^3.24.1"
+		"@astrojs/cloudflare": "^12.6.10",
+		"@tailwindcss/vite": "^4.1.17",
+		"astro": "^5.15.4",
+		"tailwindcss": "^4.1.17"
 	}
 }

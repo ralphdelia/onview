@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NavBar from '../components/NavBar.astro';
+import ArtworkCard from '../components/ArtworkCard.astro';
+import { getArtworksPaginated } from '../lib/artworks';
+
+const artworks = getArtworksPaginated(30, 0);
+
+// Group artworks into sets of 3
+const sets = artworks.reduce((acc, obj) => {
+	if (acc.length === 0 || acc[acc.length - 1].length === 3) {
+		acc.push([obj]);
+	} else {
+		acc[acc.length - 1].push(obj);
+	}
+	return acc;
+}, [] as typeof artworks[]);
+---
+
+<BaseLayout
+	title="Explore Art Collection - OnView"
+	description="Browse and explore over 2000 paintings from the Metropolitan Museum of Art. Discover visually similar artworks using AI-powered visual search technology."
+	url="https://onview.dev/explore"
+	scripts={['/static/javascript/explore.js']}
+>
+	<NavBar />
+	<div id="container">
+		<h1>Explore</h1>
+		<p class="tagline">
+			Discover connections between artworks from the Met Museum's collection by clicking <strong
+				>"Find Similar"</strong
+			> below each painting to reveal hidden relationships within the collection.
+		</p>
+		{
+			sets.map((set) => (
+				<div class="grid">
+					{set.map((artwork) => (
+						<ArtworkCard artwork={artwork} />
+					))}
+				</div>
+			))
+		}
+		<button id="load-more-btn" class="load" data-action="api/explore?page=2">Load More</button>
+	</div>
+</BaseLayout>
