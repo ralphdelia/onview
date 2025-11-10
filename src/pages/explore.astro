@@ -1,45 +1,25 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import NavBar from '../components/NavBar.astro';
-import ArtworkCard from '../components/ArtworkCard.astro';
-import { getArtworksPaginated } from '../lib/artworks';
-
-const artworks = getArtworksPaginated(30, 0);
-
-// Group artworks into sets of 3
-const sets = artworks.reduce((acc, obj) => {
-	if (acc.length === 0 || acc[acc.length - 1].length === 3) {
-		acc.push([obj]);
-	} else {
-		acc[acc.length - 1].push(obj);
-	}
-	return acc;
-}, [] as typeof artworks[]);
+import ImageItem from '../components/ImageItem.astro';
+import { allArtworks } from '../lib/artworks';
 ---
 
 <BaseLayout
 	title="Explore Art Collection - OnView"
 	description="Browse and explore over 2000 paintings from the Metropolitan Museum of Art. Discover visually similar artworks using AI-powered visual search technology."
 	url="https://onview.dev/explore"
-	scripts={['/static/javascript/explore.js']}
 >
-	<NavBar />
-	<div id="container">
-		<h1>Explore</h1>
-		<p class="tagline">
-			Discover connections between artworks from the Met Museum's collection by clicking <strong
-				>"Find Similar"</strong
-			> below each painting to reveal hidden relationships within the collection.
+	<div class="container mx-auto px-4">
+		<h1 class="text-4xl font-bold text-gray-warm-100 text-center mb-4">Explore</h1>
+		<p class="text-gray-warm-300 text-center max-w-2xl mx-auto mb-8">
+			Discover connections between artworks from the Met Museum's collection. Click any artwork to view details and find visually similar pieces.
 		</p>
-		{
-			sets.map((set) => (
-				<div class="grid">
-					{set.map((artwork) => (
-						<ArtworkCard artwork={artwork} />
-					))}
-				</div>
-			))
-		}
-		<button id="load-more-btn" class="load" data-action="api/explore?page=2">Load More</button>
+
+		<div class="columns-2 md:columns-3 lg:columns-4 gap-4">
+			{allArtworks.map((artwork, index) => (
+				<ImageItem artwork={artwork} lazy={index >= 30} />
+			))}
+		</div>
 	</div>
 </BaseLayout>

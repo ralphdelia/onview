@@ -1,0 +1,41 @@
+---
+import type { Artwork } from '../lib/artworks';
+
+interface Props {
+	artwork: Artwork;
+	lazy?: boolean;
+}
+
+const { artwork, lazy = false } = Astro.props;
+---
+
+<a
+	href={`/artwork/${artwork.objectID}`}
+	class="relative group block break-inside-avoid mb-4 overflow-hidden rounded-md"
+>
+	<picture>
+		<source
+			srcset={`${artwork.images.small} 400w, ${artwork.images.medium} 800w, ${artwork.images.large} 1200w`}
+			sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+			type="image/webp"
+		/>
+		<img
+			src={artwork.images.medium}
+			alt={artwork.title}
+			class="w-full rounded-md"
+			loading={lazy ? 'lazy' : 'eager'}
+		/>
+	</picture>
+	<div
+		class="absolute inset-0 bg-gray-warm-950/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 rounded-md"
+	>
+		<h3 class="text-gray-warm-100 text-lg">{artwork.title}</h3>
+		{artwork.artistDisplayName && <p class="text-gray-warm-300 text-sm">{artwork.artistDisplayName}</p>}
+		{artwork.objectDate && <p class="text-gray-warm-400 text-xs mt-1">{artwork.objectDate}</p>}
+		{
+			artwork.medium && (
+				<p class="text-gray-warm-300 text-sm mt-2 line-clamp-3">{artwork.medium}</p>
+			)
+		}
+	</div>
+</a>

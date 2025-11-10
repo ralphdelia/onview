@@ -1,13 +1,15 @@
 ---
+import NavBar from '../components/NavBar.astro';
+import '../styles/global.css';
+
 interface Props {
 	title?: string;
 	description?: string;
 	image?: string;
 	url?: string;
-	scripts?: string[];
 }
 
-const { title, description, image, url, scripts } = Astro.props;
+const { title, description, image, url } = Astro.props;
 
 const pageTitle = title ?? 'OnView';
 const pageDescription =
@@ -42,21 +44,20 @@ const pageUrl = url ?? 'https://onview.dev';
 			rel="icon"
 			href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🖼️</text></svg>"
 		/>
-		<link rel="dns-prefetch" href="https://collectionapi.metmuseum.org" />
-		<link
-			rel="stylesheet"
-			href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.orange.min.css"
-		/>
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-		<script is:inline src="/static/javascript/theme.js"></script>
-		{scripts?.map((script) => <script is:inline src={script}></script>)}
-		<link rel="stylesheet" href="/static/styles.css" />
 	</head>
-	<body class="container">
-		<slot />
-		<footer>
-			<hr />
-		</footer>
+	<body class="bg-gray-warm-950 min-h-screen p-4">
+		<div class="w-full max-w-6xl mx-auto">
+			<NavBar />
+			<main>
+				<slot />
+			</main>
+			<footer class="mt-8 pt-4 border-t border-gray-warm-800">
+				<p class="text-center text-gray-warm-500 text-sm">
+					© {new Date().getFullYear()} OnView
+				</p>
+			</footer>
+		</div>
 
 		<script
 			is:inline
