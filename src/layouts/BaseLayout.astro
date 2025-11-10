@@ -69,6 +69,11 @@ const pageUrl = url ?? 'https://onview.dev';
 			</footer>
 		</div>
 
+		<script>
+			import { navigateToRandomArtwork } from '../scripts/random-artwork';
+			(window as any).navigateToRandomArtwork = navigateToRandomArtwork;
+		</script>
+
 		<script
 			is:inline
 			defer
