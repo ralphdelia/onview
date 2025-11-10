@@ -1,3 +1,6 @@
+# Astro build artifacts
+.astro/
+
 # Logs
 wrangler.toml
 logs
