@@ -13,6 +13,12 @@ export interface Artwork {
 	dimensions: string;
 	galleryNumber: string;
 	relatedArtworks: number[];
+	images: {
+		small: string;
+		medium: string;
+		large: string;
+	};
+	processed?: boolean;
 }
 
 interface ArtworksData {
