@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import NavBar from '../components/NavBar.astro';
+import ImageCard from '../components/ImageCard.astro';
 ---
 
 <BaseLayout
@@ -13,26 +13,29 @@ import NavBar from '../components/NavBar.astro';
 	<h1 class="text-4xl text-gray-warm-100 text-center py-4">OnView</h1>
 
 	<div class="flex justify-center">
-		<p class="text-lg text-gray-warm-100/60 w-2xl">
+		<p class="text-lg text-gray-warm-100/80 text-center w-2xl">
 
             A way to discover visually similar paintings that are part of the Metropolitan Museum of Art's Open
 		Access Initiative. Find paintings you love and explore connections across the collection.
             </p>
           </div>
-	<div class="button-container">
+	<figure class="mt-6">
+		<a href="/artwork/435882">
+			<ImageCard
+				imageUrl="https://collectionapi.metmuseum.org/api/collection/v1/iiif/435882/796423/main-image"
+				alt="Still Life with Apples and a Pot of Primroses by Paul Cézanne"
+				scale={120}
+				x={50}
+				y={84}
+			/>
+		</a>
+		<figcaption class="text-center text-gray-warm-400 text-sm mt-2">
+			Still Life with Apples and a Pot of Primroses, Paul Cézanne
+		</figcaption>
+	</figure>
+
+	<div class="flex gap-5 justify-center mt-4 text-gray-warm-100">
 		<a href="/explore"><button>Explore</button></a>
 		<a href="/random"><button>I'm feeling lucky</button></a>
 	</div>
-	<figure>
-		<a href="/artwork/435882">
-			<img
-				class="display-img"
-				src="https://collectionapi.metmuseum.org/api/collection/v1/iiif/435882/796423/main-image"
-				alt="Still Life with Apples and a Pot of Primroses"
-			/>
-		</a>
-		<figcaption>
-			<small>Still Life with Apples and a Pot of Primroses, Paul Cézanne</small>
-		</figcaption>
-	</figure>
 </BaseLayout>
