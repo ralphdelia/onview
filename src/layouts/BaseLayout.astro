@@ -54,6 +54,9 @@ const pageUrl = url ?? 'https://onview.dev';
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 	</head>
 	<body class="bg-gray-warm-950 min-h-screen p-4">
+		<!-- Content that needs to escape max-width constraint -->
+		<slot name="outside" />
+
 		<div class="w-full max-w-6xl mx-auto">
 			<NavBar />
 			<main>

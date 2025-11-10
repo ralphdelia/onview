@@ -1,8 +1,9 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import NavBar from '../../components/NavBar.astro';
-import ArtworkCard from '../../components/ArtworkCard.astro';
+import ImageItem from '../../components/ImageItem.astro';
+import ArtworkDetails from '../../components/ArtworkDetails.astro';
 import { getArtworkById, getRelatedArtworks, allArtworks } from '../../lib/artworks';
+import { Masonry } from 'astro-masonry';
 
 export async function getStaticPaths() {
 	return allArtworks.map((artwork) => ({
@@ -19,16 +20,6 @@ if (!artwork) {
 
 const relatedArtworks = getRelatedArtworks(artwork.relatedArtworks);
 
-// Group related artworks into sets of 3
-const sets = relatedArtworks.reduce((acc, obj) => {
-	if (acc.length === 0 || acc[acc.length - 1].length === 3) {
-		acc.push([obj]);
-	} else {
-		acc[acc.length - 1].push(obj);
-	}
-	return acc;
-}, [] as typeof relatedArtworks[]);
-
 const title = `${artwork.title} - OnView`;
 const description = `${artwork.title} by ${artwork.artistDisplayName}. ${artwork.objectDate}. ${artwork.medium}. Discover visually similar artworks from the Metropolitan Museum of Art.`;
 const image = artwork.primaryImageSmall;
@@ -36,76 +27,75 @@ const url = `https://onview.dev/artwork/${id}`;
 ---
 
 <BaseLayout title={title} description={description} image={image} url={url}>
-	<article>
-		<h1>{artwork.title || 'Untitled'}</h1>
-		<div class="grid">
-			<img src={artwork.primaryImageSmall} alt={artwork.title} class="artwork-image" />
-			<div class="artwork-details">
-				<p>
-					<strong>Artist:</strong>
-					{artwork.artistDisplayName || 'Unknown Artist'}
-				</p>
-				{
-					artwork.culture && (
-						<p>
-							<strong>Culture:</strong> {artwork.culture}
-						</p>
-					)
-				}
-				<p>
-					<strong>Date:</strong>
-					{artwork.objectDate ? artwork.objectDate : 'n/a'}
-				</p>
-				{
-					artwork.medium && (
-						<p>
-							<strong>Medium:</strong> {artwork.medium}
-						</p>
-					)
-				}
-				{
-					artwork.dimensions && (
-						<p>
-							<strong>Dimensions:</strong> {artwork.dimensions}
-						</p>
-					)
-				}
-				{
-					artwork.galleryNumber && (
-						<p>
-							<strong>Gallery:</strong> {artwork.galleryNumber}
-						</p>
-					)
-				}
-				{
-					artwork.isHighlight === 'TRUE' && (
-						<p class="highlight">Highlighted Artwork</p>
-					)
-				}
-				{
-					artwork.artistDisplayBio && (
-						<p>
-							<em>{artwork.artistDisplayBio}</em>
-						</p>
-					)
-				}
-				<p>
-					<a href={`https://www.metmuseum.org/art/collection/search/${artwork.objectID}`}>
-						View on metmuseum.org &rarr;
-					</a>
-				</p>
-			</div>
+	<Fragment slot="head">
+		<!-- Preload main artwork image for faster LCP -->
+		<link
+			rel="preload"
+			as="image"
+			href={artwork.images.medium}
+			imagesrcset={`${artwork.images.small} 400w, ${artwork.images.medium} 800w, ${artwork.images.large} 1200w`}
+			imagesizes="(max-width: 768px) 100vw, 50vw"
+		/>
+	</Fragment>
+
+	<Fragment slot="outside">
+		<!-- Absolute info card top right (outside max-width constraint) -->
+		<div class="absolute top-23 right-4 max-w-sm z-10 hidden lg:block">
+			<ArtworkDetails artwork={artwork} />
+		</div>
+	</Fragment>
+
+	<article class="py-8">
+		<!-- Image centered -->
+		<div class="flex justify-center mb-8">
+			<picture>
+				<source
+					srcset={`${artwork.images.small} 400w, ${artwork.images.medium} 800w, ${artwork.images.large} 1200w`}
+					sizes="(max-width: 768px) 100vw, 90vw"
+					type="image/webp"
+				/>
+				<img
+					src={artwork.images.medium}
+					alt={artwork.title}
+					class="w-full max-w-4xl h-auto rounded-lg"
+					loading="eager"
+				/>
+			</picture>
+		</div>
+
+		<!-- Mobile/tablet info card below image -->
+		<div class="lg:hidden max-w-2xl mx-auto mb-8">
+			<ArtworkDetails artwork={artwork} />
 		</div>
 	</article>
 
-	<h3>Related:</h3>
-	{
-		sets.map((set) => (
-			<div class="grid">
-				{set.map((relatedArtwork) => (
-					<ArtworkCard artwork={relatedArtwork} />
-				))}
-			</div>
-		))
-	}
+	<!-- Related Artworks -->
+	<div id="related-section" class="container mx-auto px-4 py-12">
+		<h3 class="text-2xl font-bold text-white mb-6">Related:</h3>
+
+		<Masonry
+			breakpointCols={{default: 4, 1280: 3, 900: 2, 640: 1}}
+			class="masonry-grid"
+			columnClass="masonry-column"
+		>
+			{relatedArtworks.map((relatedArtwork) => (
+				<ImageItem artwork={relatedArtwork} lazy={true} />
+			))}
+		</Masonry>
+	</div>
+
+	<style>
+		:global(.masonry-grid) {
+			margin-left: -1rem;
+		}
+
+		:global(.masonry-column) {
+			padding-left: 1rem;
+			background-clip: padding-box;
+		}
+
+		:global(.masonry-column > *) {
+			margin-bottom: 1rem;
+		}
+	</style>
 </BaseLayout>
