@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import NavBar from '../components/NavBar.astro';
 import ImageItem from '../components/ImageItem.astro';
 import { allArtworks } from '../lib/artworks';
 import { Masonry } from 'astro-masonry';
@@ -26,7 +25,7 @@ const firstFourImages = allArtworks.slice(0, 4);
 			/>
 		))}
 	</Fragment>
-	<div class="container mx-auto px-4">
+	<div class="container mx-auto px-4" data-pagefind-ignore>
 		<h1 class="text-4xl font-bold text-gray-warm-100 text-center mb-4">Explore</h1>
 		<p class="text-gray-warm-300 text-center max-w-2xl mx-auto mb-8">
 			Discover connections between artworks from the Met Museum's collection. Click any artwork to view details and find visually similar pieces.
