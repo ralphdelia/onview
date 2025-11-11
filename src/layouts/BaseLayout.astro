@@ -42,6 +42,15 @@ const pageUrl = url ?? 'https://onview.dev';
 		<!-- Allow pages to inject additional head elements -->
 		<slot name="head" />
 
+		<!-- Structured Data for WebSite -->
+		<script type="application/ld+json" set:html={JSON.stringify({
+			"@context": "https://schema.org",
+			"@type": "WebSite",
+			"name": "OnView",
+			"description": pageDescription,
+			"url": "https://onview.dev"
+		})} />
+
 		<meta property="og:title" content={pageTitle} />
 		<meta property="og:description" content={pageDescription} />
 		<meta property="og:image" content={pageImage} />

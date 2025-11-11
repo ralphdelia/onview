@@ -1,0 +1,6 @@
+# robots.txt for onview.dev
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://onview.dev/sitemap-index.xml

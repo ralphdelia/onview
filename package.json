@@ -22,6 +22,7 @@
 	},
 	"dependencies": {
 		"@astrojs/cloudflare": "^12.6.10",
+		"@astrojs/sitemap": "^3.6.0",
 		"@tailwindcss/vite": "^4.1.17",
 		"astro": "^5.15.4",
 		"astro-masonry": "^1.2.2",

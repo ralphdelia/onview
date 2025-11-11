@@ -39,6 +39,26 @@ const url = `https://onview.dev/artwork/${id}`;
 			imagesrcset={`${artwork.images.small} 400w, ${artwork.images.medium} 800w, ${artwork.images.large} 1200w`}
 			imagesizes="(max-width: 768px) 100vw, 50vw"
 		/>
+		<!-- Structured Data for Artwork -->
+		<script type="application/ld+json" set:html={JSON.stringify({
+			"@context": "https://schema.org",
+			"@type": "VisualArtwork",
+			"name": artwork.title,
+			"image": artwork.images.medium,
+			"creator": {
+				"@type": "Person",
+				"name": artwork.artistDisplayName
+			},
+			"dateCreated": artwork.objectDate,
+			"artMedium": artwork.medium,
+			"artform": "Painting",
+			"url": `https://onview.dev/artwork/${id}`,
+			"isPartOf": {
+				"@type": "Collection",
+				"name": "Metropolitan Museum of Art Open Access Collection"
+			},
+			"copyrightNotice": "CC0 1.0 Universal (CC0 1.0) Public Domain Dedication"
+		})} />
 	</Fragment>
 
 	<Fragment slot="outside">
