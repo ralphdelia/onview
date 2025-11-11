@@ -43,13 +43,16 @@ const pageUrl = url ?? 'https://onview.dev';
 		<slot name="head" />
 
 		<!-- Structured Data for WebSite -->
-		<script type="application/ld+json" set:html={JSON.stringify({
-			"@context": "https://schema.org",
-			"@type": "WebSite",
-			"name": "OnView",
-			"description": pageDescription,
-			"url": "https://onview.dev"
-		})} />
+		<script
+			type="application/ld+json"
+			set:html={JSON.stringify({
+				'@context': 'https://schema.org',
+				'@type': 'WebSite',
+				name: 'OnView',
+				description: pageDescription,
+				url: 'https://onview.dev',
+			})}
+		/>
 
 		<meta property="og:title" content={pageTitle} />
 		<meta property="og:description" content={pageDescription} />
@@ -87,11 +90,17 @@ const pageUrl = url ?? 'https://onview.dev';
 			<main class="grow">
 				<slot />
 			</main>
-		<footer class="mt-8 pt-4 border-t border-gray-warm-800 shrink-0">
-			<p class="text-center text-gray-warm-500 text-sm">
-				© {new Date().getFullYear()} OnView • made by <a href="https://ralphdelia.com" target="_blank" rel="noopener noreferrer" class="text-gray-warm-300 underline hover:text-gray-warm-100 transition-colors">Ralph</a>
-			</p>
-		</footer>
+			<footer class="mt-8 pt-4 border-t border-gray-warm-800 shrink-0">
+				<p class="text-center text-gray-warm-500 text-sm mb-2">
+					© {new Date().getFullYear()} OnView • made by <a
+						href="https://ralphdelia.com"
+						target="_blank"
+						rel="noopener noreferrer"
+						class="text-gray-warm-300 underline hover:text-gray-warm-100 transition-colors"
+						>Ralph</a
+					>
+				</p>
+			</footer>
 		</div>
 
 		<script>
