@@ -10,7 +10,7 @@ const { artwork, lazy = false } = Astro.props;
 ---
 
 <figure class="relative group block overflow-hidden rounded-md">
-	<a href={`/artwork/${artwork.objectID}`} class="block">
+	<a href={`/artwork/${artwork.objectID}`} class="block relative">
 		{lazy ? (
 			<div class="relative w-full min-h-[300px]">
 				<!-- Skeleton loader placeholder -->
@@ -20,7 +20,7 @@ const { artwork, lazy = false } = Astro.props;
 					data-srcset={`${artwork.images.small} 400w, ${artwork.images.medium} 800w, ${artwork.images.large} 1200w`}
 					data-sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
 					alt={`${artwork.title}${artwork.artistDisplayName ? ` by ${artwork.artistDisplayName}` : ''}`}
-					class="lazy-image w-full h-auto rounded-md opacity-0 transition-opacity duration-300 relative z-10"
+					class="lazy-image w-full h-auto rounded-md opacity-0 transition-opacity duration-300"
 				/>
 			</div>
 		) : (
@@ -29,7 +29,7 @@ const { artwork, lazy = false } = Astro.props;
 				srcset={`${artwork.images.small} 400w, ${artwork.images.medium} 800w, ${artwork.images.large} 1200w`}
 				sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
 				alt={`${artwork.title}${artwork.artistDisplayName ? ` by ${artwork.artistDisplayName}` : ''}`}
-				class="w-full rounded-md"
+				class="w-full rounded-md block"
 				loading="eager"
 			/>
 		)}
