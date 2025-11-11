@@ -13,7 +13,8 @@ const { title, description, image, url } = Astro.props;
 
 const pageTitle = title ?? 'OnView';
 const pageDescription =
-	description ?? "Discover visually similar paintings from the Metropolitan Museum of Art's collection";
+	description ??
+	"Discover visually similar paintings from the Metropolitan Museum of Art's collection";
 const pageImage = image ?? 'https://onview.dev/static/og-image.jpg';
 const pageUrl = url ?? 'https://onview.dev';
 ---
@@ -25,6 +26,14 @@ const pageUrl = url ?? 'https://onview.dev';
 		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
 		<title>{pageTitle}</title>
 		<meta name="description" content={pageDescription} />
+
+		<!-- Google Fonts -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap"
+			rel="stylesheet"
+		/>
 
 		<!-- DNS Prefetch and Preconnect for image CDN -->
 		<link rel="dns-prefetch" href="https://images.onview.dev" />
@@ -51,13 +60,18 @@ const pageUrl = url ?? 'https://onview.dev';
 			rel="icon"
 			href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🖼️</text></svg>"
 		/>
-		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+		<link
+			href="https://fonts.googleapis.com/icon?family=Material+Icons"
+			rel="stylesheet"
+		/>
 	</head>
-	<body class="bg-gray-warm-950 min-h-screen p-4">
+	<body class="bg-gray-warm-950 min-h-screen p-4 font-sans font">
 		<!-- Content that needs to escape max-width constraint -->
 		<slot name="outside" />
 
-		<div class="w-full max-w-6xl mx-auto min-h-[calc(100vh-2rem)] flex flex-col">
+		<div
+			class="w-full max-w-6xl mx-auto min-h-[calc(100vh-2rem)] flex flex-col"
+		>
 			<div class="shrink-0">
 				<NavBar />
 			</div>

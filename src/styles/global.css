@@ -12,6 +12,9 @@
 	--color-gray-warm-800: #3a362f;
 	--color-gray-warm-900: #25221b;
 	--color-gray-warm-950: #100d02;
+
+	--font-sans:
+		'Lora', ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
 }
 
 body {

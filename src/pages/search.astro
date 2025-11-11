@@ -9,18 +9,20 @@ import PagefindSearch from 'astro-pagefind/components/Search';
 	url="https://onview.dev/search"
 >
 	<div class="container mx-auto px-4">
-		<h1 class="text-4xl font-bold text-gray-warm-100 text-center mb-4">Search</h1>
+		<h1 class="text-4xl font-bold text-gray-warm-100 text-center mb-4">
+			Search
+		</h1>
 		<p class="text-gray-warm-300 text-center max-w-2xl mx-auto mb-8">
 			Search for artworks by title, artist, culture, or medium
 		</p>
-		
-		<PagefindSearch 
-			id="search" 
-			className="pagefind-ui" 
-			uiOptions={{ 
+
+		<PagefindSearch
+			id="search"
+			className="pagefind-ui"
+			uiOptions={{
 				showImages: true,
-				excerptLength: 15
-			}} 
+				excerptLength: 15,
+			}}
 		/>
 	</div>
 </BaseLayout>

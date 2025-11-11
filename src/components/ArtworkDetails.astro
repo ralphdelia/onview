@@ -23,20 +23,30 @@ const { artwork } = Astro.props;
 		</p>
 
 		<h1 class="text-sm text-gray-warm-100">
-			{artwork.title || 'Untitled'}{artwork.objectDate ? `, ${artwork.objectDate}` : ''}
+			{artwork.title || 'Untitled'}{
+				artwork.objectDate ? `, ${artwork.objectDate}` : ''
+			}
 		</h1>
 
-		{artwork.medium && (
-			<p class="text-xs text-gray-warm-300">{artwork.medium}</p>
-		)}
+		{
+			artwork.medium && (
+				<p class="text-xs text-gray-warm-300">{artwork.medium}</p>
+			)
+		}
 
-		{artwork.dimensions && (
-			<p class="text-xs text-gray-warm-300">{artwork.dimensions}</p>
-		)}
+		{
+			artwork.dimensions && (
+				<p class="text-xs text-gray-warm-300">{artwork.dimensions}</p>
+			)
+		}
 
-		{artwork.galleryNumber && (
-			<p class="text-xs text-gray-warm-200">Gallery {artwork.galleryNumber}</p>
-		)}
+		{
+			artwork.galleryNumber && (
+				<p class="text-xs text-gray-warm-200">
+					Gallery {artwork.galleryNumber}
+				</p>
+			)
+		}
 
 		<p class="mt-3" data-pagefind-ignore>
 			<a

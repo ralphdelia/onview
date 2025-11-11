@@ -14,20 +14,25 @@ const firstFourImages = allArtworks.slice(0, 4);
 >
 	<Fragment slot="head">
 		<!-- Preload first row of images for faster LCP -->
-		{firstFourImages.map((artwork) => (
-			<link
-				rel="preload"
-				as="image"
-				href={artwork.images.medium}
-				imagesrcset={`${artwork.images.small} 400w, ${artwork.images.medium} 800w`}
-				imagesizes="(max-width: 1024px) 33vw, 25vw"
-			/>
-		))}
+		{
+			firstFourImages.map((artwork) => (
+				<link
+					rel="preload"
+					as="image"
+					href={artwork.images.medium}
+					imagesrcset={`${artwork.images.small} 400w, ${artwork.images.medium} 800w`}
+					imagesizes="(max-width: 1024px) 33vw, 25vw"
+				/>
+			))
+		}
 	</Fragment>
 	<div class="container mx-auto px-4" data-pagefind-ignore>
-		<h1 class="text-4xl font-bold text-gray-warm-100 text-center mb-4">Explore</h1>
+		<h1 class="text-4xl font-bold text-gray-warm-100 text-center mb-4">
+			Explore
+		</h1>
 		<p class="text-gray-warm-300 text-center max-w-2xl mx-auto mb-8">
-			Discover connections between artworks from the Met Museum's collection. Click any artwork to view details and find visually similar pieces.
+			Discover connections between artworks from the Met Museum's collection.
+			Click any artwork to view details and find visually similar pieces.
 		</p>
 
 		<MasonryGallery artworks={allArtworks} eagerCount={10} />
