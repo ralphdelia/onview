@@ -79,8 +79,55 @@ const url = `https://onview.dev/artwork/${id}`;
 		class="container mx-auto px-4 py-12"
 		data-pagefind-ignore
 	>
-		<h3 class="text-2xl font-bold text-white mb-6">Related:</h3>
+		<h3 id="related" class="text-2xl text-center text-gray-warm-100 mb-6">
+			Related
+		</h3>
 
 		<MasonryGallery artworks={relatedArtworks} eagerCount={4} />
 	</div>
+
+	<!-- Floating button to Related section -->
+	<a
+		id="related-button"
+		href="#related"
+		class="fixed bottom-8 right-8 bg-gray-warm-900/90 hover:bg-gray-warm-900 border border-gray-warm-700/80 hover:border-gray-warm-700 text-gray-warm-100 px-6 py-3 rounded-full transition-all z-50 flex items-center gap-2"
+		aria-label="Jump to related artworks"
+	>
+		<span>Related Artworks</span>
+		<span class="text-xl -translate-y-0.5">&darr;</span>
+	</a>
 </BaseLayout>
+
+<style>
+	html {
+		scroll-behavior: smooth;
+	}
+
+	#related-button.hidden {
+		opacity: 0;
+		pointer-events: none;
+	}
+</style>
+
+<script>
+	const button = document.getElementById('related-button');
+	const relatedHeading = document.getElementById('related');
+
+	function checkScrollPosition() {
+		if (!relatedHeading || !button) return;
+
+		const rect = relatedHeading.getBoundingClientRect();
+		const windowHeight = window.innerHeight;
+		const threshold = windowHeight * (3 / 4);
+
+		if (rect.top <= threshold) {
+			button.classList.add('hidden');
+		} else {
+			button.classList.remove('hidden');
+		}
+	}
+
+	window.addEventListener('scroll', checkScrollPosition);
+
+	checkScrollPosition();
+</script>
