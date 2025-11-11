@@ -11,19 +11,28 @@ const { artwork, lazy = false } = Astro.props;
 
 <figure class="relative group block overflow-hidden rounded-md">
 	<a href={`/artwork/${artwork.objectID}`} class="block">
-		<picture>
-			<source
-				srcset={`${artwork.images.small} 400w, ${artwork.images.medium} 800w, ${artwork.images.large} 1200w`}
-				sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-				type="image/webp"
-			/>
+		{lazy ? (
+			<div class="relative w-full min-h-[300px]">
+				<!-- Skeleton loader placeholder -->
+				<div class="skeleton-loader absolute inset-0 bg-gray-warm-800 rounded-md"></div>
+				<img
+					data-src={artwork.images.medium}
+					data-srcset={`${artwork.images.small} 400w, ${artwork.images.medium} 800w, ${artwork.images.large} 1200w`}
+					data-sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+					alt={`${artwork.title}${artwork.artistDisplayName ? ` by ${artwork.artistDisplayName}` : ''}`}
+					class="lazy-image w-full h-auto rounded-md opacity-0 transition-opacity duration-300 relative z-10"
+				/>
+			</div>
+		) : (
 			<img
 				src={artwork.images.medium}
+				srcset={`${artwork.images.small} 400w, ${artwork.images.medium} 800w, ${artwork.images.large} 1200w`}
+				sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
 				alt={`${artwork.title}${artwork.artistDisplayName ? ` by ${artwork.artistDisplayName}` : ''}`}
 				class="w-full rounded-md"
-				loading={lazy ? 'lazy' : 'eager'}
+				loading="eager"
 			/>
-		</picture>
+		)}
 	</a>
 	<figcaption
 		class="absolute inset-0 bg-gray-warm-950/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 rounded-md pointer-events-none"

@@ -16,9 +16,9 @@ const firstFourImages = allArtworks.slice(0, 4);
 	<Fragment slot="head">
 		<!-- Preload first row of images for faster LCP -->
 		{firstFourImages.map((artwork) => (
-			<link 
-				rel="preload" 
-				as="image" 
+			<link
+				rel="preload"
+				as="image"
 				href={artwork.images.medium}
 				imagesrcset={`${artwork.images.small} 400w, ${artwork.images.medium} 800w`}
 				imagesizes="(max-width: 1024px) 33vw, 25vw"
@@ -31,13 +31,13 @@ const firstFourImages = allArtworks.slice(0, 4);
 			Discover connections between artworks from the Met Museum's collection. Click any artwork to view details and find visually similar pieces.
 		</p>
 
-		<Masonry 
+		<Masonry
 			breakpointCols={{default: 4, 1280: 3, 900: 2, 640: 1}}
 			class="masonry-grid"
 			columnClass="masonry-column"
 		>
 			{allArtworks.map((artwork, index) => (
-				<ImageItem artwork={artwork} lazy={index >= 30} />
+				<ImageItem artwork={artwork} lazy={index >= 10} />
 			))}
 		</Masonry>
 	</div>
@@ -55,6 +55,11 @@ const firstFourImages = allArtworks.slice(0, 4);
 		:global(.masonry-column > *) {
 			margin-bottom: 1rem;
 		}
+
+		:global(.skeleton-loader) {
+			min-height: 300px;
+		}
+
 	</style>
 
 	<script>
@@ -73,11 +78,17 @@ const firstFourImages = allArtworks.slice(0, 4);
 								img.src = src;
 								if (srcset) img.srcset = srcset;
 								if (sizes) img.sizes = sizes;
-								
+
 								img.onload = () => {
-									// Hide skeleton and show image
+									// Remove skeleton and min-height constraint
 									const skeleton = img.previousElementSibling;
 									if (skeleton) skeleton.remove();
+
+									const wrapper = img.parentElement;
+									if (wrapper && wrapper.classList.contains('min-h-[300px]')) {
+										wrapper.classList.remove('min-h-[300px]');
+									}
+
 									img.classList.remove('opacity-0');
 									img.classList.add('opacity-100');
 								};
@@ -88,7 +99,7 @@ const firstFourImages = allArtworks.slice(0, 4);
 					});
 				},
 				{
-					rootMargin: '50px 0px',
+					rootMargin: '200px 0px',
 					threshold: 0.01,
 				}
 			);
@@ -104,11 +115,11 @@ const firstFourImages = allArtworks.slice(0, 4);
 				const src = element.getAttribute('data-src');
 				const srcset = element.getAttribute('data-srcset');
 				const sizes = element.getAttribute('data-sizes');
-				
+
 				if (src) element.src = src;
 				if (srcset) element.srcset = srcset;
 				if (sizes) element.sizes = sizes;
-				
+
 				const skeleton = element.previousElementSibling;
 				if (skeleton) skeleton.remove();
 				element.classList.remove('opacity-0');
