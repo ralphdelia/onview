@@ -1,8 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import ImageItem from '../components/ImageItem.astro';
+import MasonryGallery from '../components/MasonryGallery.astro';
 import { allArtworks } from '../lib/artworks';
-import { Masonry } from 'astro-masonry';
 
 // Get first 4 images for preloading (first visible row on desktop)
 const firstFourImages = allArtworks.slice(0, 4);
@@ -31,100 +30,6 @@ const firstFourImages = allArtworks.slice(0, 4);
 			Discover connections between artworks from the Met Museum's collection. Click any artwork to view details and find visually similar pieces.
 		</p>
 
-		<Masonry
-			breakpointCols={{default: 4, 1280: 3, 900: 2, 640: 1}}
-			class="masonry-grid"
-			columnClass="masonry-column"
-		>
-			{allArtworks.map((artwork, index) => (
-				<ImageItem artwork={artwork} lazy={index >= 10} />
-			))}
-		</Masonry>
+		<MasonryGallery artworks={allArtworks} eagerCount={10} />
 	</div>
-
-	<style>
-		:global(.masonry-grid) {
-			margin-left: -1rem;
-		}
-
-		:global(.masonry-column) {
-			padding-left: 1rem;
-			background-clip: padding-box;
-		}
-
-		:global(.masonry-column > *) {
-			margin-bottom: 1rem;
-		}
-
-		:global(.skeleton-loader) {
-			min-height: 300px;
-		}
-
-	</style>
-
-	<script>
-		// Intersection Observer for lazy loading images
-		if ('IntersectionObserver' in window) {
-			const imageObserver = new IntersectionObserver(
-				(entries, observer) => {
-					entries.forEach((entry) => {
-						if (entry.isIntersecting) {
-							const img = entry.target as HTMLImageElement;
-							const src = img.getAttribute('data-src');
-							const srcset = img.getAttribute('data-srcset');
-							const sizes = img.getAttribute('data-sizes');
-
-							if (src) {
-								img.src = src;
-								if (srcset) img.srcset = srcset;
-								if (sizes) img.sizes = sizes;
-
-								img.onload = () => {
-									// Remove skeleton and min-height constraint
-									const skeleton = img.previousElementSibling;
-									if (skeleton) skeleton.remove();
-
-									const wrapper = img.parentElement;
-									if (wrapper && wrapper.classList.contains('min-h-[300px]')) {
-										wrapper.classList.remove('min-h-[300px]');
-									}
-
-									img.classList.remove('opacity-0');
-									img.classList.add('opacity-100');
-								};
-
-								observer.unobserve(img);
-							}
-						}
-					});
-				},
-				{
-					rootMargin: '200px 0px',
-					threshold: 0.01,
-				}
-			);
-
-			// Observe all lazy images
-			document.querySelectorAll('.lazy-image').forEach((img) => {
-				imageObserver.observe(img);
-			});
-		} else {
-			// Fallback for browsers without IntersectionObserver
-			document.querySelectorAll('.lazy-image').forEach((img) => {
-				const element = img as HTMLImageElement;
-				const src = element.getAttribute('data-src');
-				const srcset = element.getAttribute('data-srcset');
-				const sizes = element.getAttribute('data-sizes');
-
-				if (src) element.src = src;
-				if (srcset) element.srcset = srcset;
-				if (sizes) element.sizes = sizes;
-
-				const skeleton = element.previousElementSibling;
-				if (skeleton) skeleton.remove();
-				element.classList.remove('opacity-0');
-				element.classList.add('opacity-100');
-			});
-		}
-	</script>
 </BaseLayout>

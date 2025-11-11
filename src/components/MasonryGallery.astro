@@ -1,0 +1,107 @@
+---
+import ImageItem from './ImageItem.astro';
+import { Masonry } from 'astro-masonry';
+import type { Artwork } from '../lib/artworks';
+
+interface Props {
+	artworks: Artwork[];
+	eagerCount?: number; // Number of images to load eagerly (default: 10)
+}
+
+const { artworks, eagerCount = 10 } = Astro.props;
+---
+
+<Masonry
+	breakpointCols={{default: 4, 1280: 3, 900: 2, 640: 1}}
+	class="masonry-grid"
+	columnClass="masonry-column"
+>
+	{artworks.map((artwork, index) => (
+		<ImageItem artwork={artwork} lazy={index >= eagerCount} />
+	))}
+</Masonry>
+
+<style>
+	:global(.masonry-grid) {
+		margin-left: -1rem;
+	}
+
+	:global(.masonry-column) {
+		padding-left: 1rem;
+		background-clip: padding-box;
+	}
+
+	:global(.masonry-column > *) {
+		margin-bottom: 1rem;
+	}
+
+	:global(.skeleton-loader) {
+		min-height: 300px;
+	}
+</style>
+
+<script>
+	// Intersection Observer for lazy loading images
+	if ('IntersectionObserver' in window) {
+		const imageObserver = new IntersectionObserver(
+			(entries, observer) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) {
+						const img = entry.target as HTMLImageElement;
+						const src = img.getAttribute('data-src');
+						const srcset = img.getAttribute('data-srcset');
+						const sizes = img.getAttribute('data-sizes');
+
+						if (src) {
+							img.src = src;
+							if (srcset) img.srcset = srcset;
+							if (sizes) img.sizes = sizes;
+
+							img.onload = () => {
+								// Remove skeleton and min-height constraint
+								const skeleton = img.previousElementSibling;
+								if (skeleton) skeleton.remove();
+
+								const wrapper = img.parentElement;
+								if (wrapper && wrapper.classList.contains('min-h-[300px]')) {
+									wrapper.classList.remove('min-h-[300px]');
+								}
+
+								img.classList.remove('opacity-0');
+								img.classList.add('opacity-100');
+							};
+
+							observer.unobserve(img);
+						}
+					}
+				});
+			},
+			{
+				rootMargin: '200px 0px',
+				threshold: 0.01,
+			}
+		);
+
+		// Observe all lazy images
+		document.querySelectorAll('.lazy-image').forEach((img) => {
+			imageObserver.observe(img);
+		});
+	} else {
+		// Fallback for browsers without IntersectionObserver
+		document.querySelectorAll('.lazy-image').forEach((img) => {
+			const element = img as HTMLImageElement;
+			const src = element.getAttribute('data-src');
+			const srcset = element.getAttribute('data-srcset');
+			const sizes = element.getAttribute('data-sizes');
+
+			if (src) element.src = src;
+			if (srcset) element.srcset = srcset;
+			if (sizes) element.sizes = sizes;
+
+			const skeleton = element.previousElementSibling;
+			if (skeleton) skeleton.remove();
+			element.classList.remove('opacity-0');
+			element.classList.add('opacity-100');
+		});
+	}
+</script>
