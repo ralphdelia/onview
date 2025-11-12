@@ -25,7 +25,7 @@
 			</li>
 			<li>
 				<button
-					onclick="navigateToRandomArtwork(event)"
+					id="random-artwork-btn"
 					class="text-primary p-2 hover:opacity-50 transition-opacity duration-200 cursor-pointer"
 				>
 					Random
@@ -34,3 +34,39 @@
 		</ul>
 	</div>
 </nav>
+
+<script>
+	let artworkIds: number[] | null = null;
+	let fetchPromise: Promise<void> | null = null;
+
+	async function loadArtworkIds() {
+		if (fetchPromise) return fetchPromise;
+		
+		fetchPromise = fetch('/artwork-ids.json')
+			.then(response => response.json())
+			.then(data => {
+				artworkIds = data;
+			})
+			.catch(error => {
+				console.error('Failed to load artwork IDs:', error);
+				fetchPromise = null;
+			});
+		
+		return fetchPromise;
+	}
+
+	async function navigateToRandomArtwork() {
+		await loadArtworkIds();
+
+		if (artworkIds && artworkIds.length > 0) {
+			const randomId = artworkIds[Math.floor(Math.random() * artworkIds.length)];
+			window.location.href = `/artwork/${randomId}/`;
+		}
+	}
+
+	const button = document.getElementById('random-artwork-btn');
+	
+	button?.addEventListener('mouseenter', loadArtworkIds);
+	button?.addEventListener('focus', loadArtworkIds);
+	button?.addEventListener('click', navigateToRandomArtwork);
+</script>
