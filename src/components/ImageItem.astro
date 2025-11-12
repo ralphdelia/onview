@@ -17,8 +17,6 @@ const { artwork, lazy = false } = Astro.props;
 				<div class="skeleton-loader absolute inset-0 bg-gray-warm-800 rounded-md"></div>
 				<img
 					data-src={artwork.images.small}
-					data-srcset={`${artwork.images.small} 400w, ${artwork.images.medium} 800w, ${artwork.images.large} 1200w`}
-					data-sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 400px, 350px"
 					alt={`${artwork.title}${artwork.artistDisplayName ? ` by ${artwork.artistDisplayName}` : ''}`}
 					class="lazy-image w-full h-auto rounded-md opacity-0 transition-opacity duration-300"
 				/>
@@ -26,8 +24,6 @@ const { artwork, lazy = false } = Astro.props;
 		) : (
 			<img
 				src={artwork.images.small}
-				srcset={`${artwork.images.small} 400w, ${artwork.images.medium} 800w, ${artwork.images.large} 1200w`}
-				sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 400px, 350px"
 				alt={`${artwork.title}${artwork.artistDisplayName ? ` by ${artwork.artistDisplayName}` : ''}`}
 				class="w-full rounded-md block"
 				loading="eager"
