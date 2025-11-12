@@ -17,11 +17,22 @@ const featuredArtworks = [435901, 435614, 437824]
 	image="https://collectionapi.metmuseum.org/api/collection/v1/iiif/435882/796423/main-image"
 	url="https://onview.dev"
 >
+	<link
+		slot="head"
+		rel="preload"
+		as="image"
+		href="https://collectionapi.metmuseum.org/api/collection/v1/iiif/435882/796423/main-image"
+		fetchpriority="high"
+	/>
 	<div data-pagefind-ignore>
 		<div class="flex justify-around items-center px-4">
 			<div class="flex flex-col justify-center pt-8 md:pt-12 pb-6">
-				<h1 class="text-3xl md:text-4xl text-primary text-center py-4">OnView</h1>
-				<p class="text-base md:text-xl text-primary text-center max-w-2xl leading-relaxed mx-auto">
+				<h1 class="text-3xl md:text-4xl text-primary text-center py-4">
+					OnView
+				</h1>
+				<p
+					class="text-base md:text-xl text-primary text-center max-w-2xl leading-relaxed mx-auto"
+				>
 					Discover <span class="text-primary underline">visually similar</span> paintings
 					at the Metropolitan Museum of Art. Explore artworks you love and uncover
 					<span class="text-primary underline">unique connections</span>.
@@ -46,6 +57,7 @@ const featuredArtworks = [435901, 435614, 437824]
 					scale={120}
 					x={50}
 					y={90}
+					fetchpriority="high"
 				/>
 			</a>
 			<figcaption
@@ -57,7 +69,7 @@ const featuredArtworks = [435901, 435614, 437824]
 
 		<div class="mt-6 px-4">
 			<Text class="mb-3">
-				Onview ranks images in the MET's collection by their visual similarity,
+				OnView ranks images in the MET's collection by their visual similarity,
 				making it easy to find related works. Instead of relying on metadata
 				like artistic movement or medium, images are programmatically compared
 				based on visual features such as color, composition, and content.

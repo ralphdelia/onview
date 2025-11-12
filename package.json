@@ -20,6 +20,7 @@
 	},
 	"dependencies": {
 		"@astrojs/sitemap": "^3.6.0",
+		"@fontsource-variable/lora": "^5.2.8",
 		"@tailwindcss/vite": "^4.1.17",
 		"astro": "^5.15.4",
 		"astro-masonry": "^1.2.2",

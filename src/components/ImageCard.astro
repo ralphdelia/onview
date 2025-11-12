@@ -6,6 +6,7 @@ interface Props {
 	x?: number; // X position as percentage (0-100, default 50 = center)
 	y?: number; // Y position as percentage (0-100, default 50 = center)
 	class?: string;
+	fetchpriority?: 'high' | 'low' | 'auto';
 }
 
 const {
@@ -15,6 +16,7 @@ const {
 	x = 50,
 	y = 50,
 	class: className = '',
+	fetchpriority = 'auto',
 } = Astro.props;
 
 // Ensure scale is at least 100
@@ -34,6 +36,7 @@ const scaleMultiplier = validScale / 100;
 			objectPosition: `${x}% ${y}%`,
 			transform: `scale(${scaleMultiplier})`,
 		}}
+		fetchpriority={fetchpriority}
 	/>
 	<div class="relative z-10">
 		<slot />
