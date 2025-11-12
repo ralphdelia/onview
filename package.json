@@ -7,7 +7,7 @@
 		"start": "astro dev",
 		"build": "astro build",
 		"preview": "astro preview",
-		"deploy": "astro build && wrangler pages deploy ./dist",
+		"deploy": "astro build && wrangler deploy",
 		"format": "prettier --write ."
 	},
 	"devDependencies": {
@@ -15,13 +15,10 @@
 		"@cloudflare/workers-types": "^4.20250204.0",
 		"prettier": "^3.6.2",
 		"prettier-plugin-astro": "^0.14.1",
-		"puppeteer": "^24.25.0",
 		"typescript": "^5.5.2",
-		"vitest": "1.5.0",
 		"wrangler": "^3.75.0"
 	},
 	"dependencies": {
-		"@astrojs/cloudflare": "^12.6.10",
 		"@astrojs/sitemap": "^3.6.0",
 		"@tailwindcss/vite": "^4.1.17",
 		"astro": "^5.15.4",
