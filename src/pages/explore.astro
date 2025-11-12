@@ -4,8 +4,7 @@ import MasonryGallery from '../components/MasonryGallery.astro';
 import Text from '../components/Text.astro';
 import { allArtworks } from '../lib/artworks';
 
-// Get first 4 images for preloading (first visible row on desktop)
-const firstFourImages = allArtworks.slice(0, 4);
+const firstImages = allArtworks.slice(0, 4);
 ---
 
 <BaseLayout
@@ -16,7 +15,7 @@ const firstFourImages = allArtworks.slice(0, 4);
 	<Fragment slot="head">
 		<!-- Preload first row of images for faster LCP -->
 		{
-			firstFourImages.map((artwork) => (
+			firstImages.map((artwork) => (
 				<link
 					rel="preload"
 					as="image"

@@ -27,6 +27,7 @@ const { artwork, lazy = false } = Astro.props;
 				alt={`${artwork.title}${artwork.artistDisplayName ? ` by ${artwork.artistDisplayName}` : ''}`}
 				class="w-full rounded-md block"
 				loading="eager"
+				fetchpriority="high"
 			/>
 		)}
 	</a>
