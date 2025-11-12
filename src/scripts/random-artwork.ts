@@ -1,9 +1,7 @@
 import { allArtworks } from '../lib/artworks';
 
-// Get all artwork IDs
 const artworkIds = allArtworks.map((art) => art.objectID);
 
-// Navigate to a random artwork
 export function navigateToRandomArtwork(event?: Event) {
 	if (event) {
 		event.preventDefault();
