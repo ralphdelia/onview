@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ImageCard from '../components/ImageCard.astro';
 import ImageItem from '../components/ImageItem.astro';
+import Text from '../components/Text.astro';
 import { getArtworkById, type Artwork } from '../lib/artworks';
 
 // Get specific artworks to feature
@@ -58,16 +59,14 @@ const featuredArtworks = [435901, 435614, 437824]
 			</figcaption>
 		</figure>
 
-		<div
-			class="mt-6 text-gray-warm-100/80 text-base leading-relaxed max-w-2xl mx-auto px-4"
-		>
-			<p class="mb-3">
+		<div class="mt-6 px-4">
+			<Text class="mb-3">
 				Onview ranks images in the MET's collection by their visual similarity,
 				making it easy to find related works. Instead of relying on metadata
 				like artistic movement or medium, images are programmatically compared
 				based on visual features such as color, composition, and content.
-			</p>
-			<p>
+			</Text>
+			<Text>
 				All artworks used in this project are available under Creative Commons
 				Zero, thanks to the museum's <a
 					href="https://www.metmuseum.org/about-the-met/policies-and-documents/open-access"
@@ -75,12 +74,14 @@ const featuredArtworks = [435901, 435614, 437824]
 					target="_blank"
 					rel="noopener noreferrer">Open Access Initiative</a
 				>.
-			</p>
+			</Text>
 		</div>
 
 		<!-- Featured Artworks Row -->
 		<div class="mt-12 mb-8 max-w-6xl mx-auto px-4">
-			<div class="grid grid-cols-1 md:grid-cols-3 gap-6 justify-items-center items-center">
+			<div
+				class="grid grid-cols-1 md:grid-cols-3 gap-6 justify-items-center items-center"
+			>
 				{
 					featuredArtworks.map((artwork) => (
 						<div class="w-full max-w-md">
@@ -89,9 +90,13 @@ const featuredArtworks = [435901, 435614, 437824]
 					))
 				}
 			</div>
-			<p class="text-gray-warm-100/80 text-base leading-relaxed max-w-2xl mx-auto mt-6">
-				Despite being painted by different artists across Renaissance Italy, the Madonna and Child works by Cima da Conegliano, Fra Bartolomeo, and Titian display striking similarities in visual approach, from composition and color palette to the intimate portrayal of their subjects.
-			</p>
+			<Text class="mt-6">
+				Despite being painted by different artists across Renaissance Italy, the
+				Madonna and Child works by Cima da Conegliano, Fra Bartolomeo, and
+				Titian display striking similarities in visual approach, from
+				composition and color palette to the intimate portrayal of their
+				subjects.
+			</Text>
 		</div>
 	</div>
 </BaseLayout>

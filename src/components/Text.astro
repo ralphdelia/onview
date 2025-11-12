@@ -1,0 +1,22 @@
+---
+export interface Props {
+	variant?: 'base' | 'lg' | 'xl' | '2xl';
+	class?: string;
+}
+
+const { variant = 'base', class: className = '' } = Astro.props;
+
+const variantClasses = {
+	base: 'text-base',
+	lg: 'text-lg',
+	xl: 'text-xl',
+	'2xl': 'text-2xl',
+};
+
+const baseClasses = 'text-gray-warm-100/90 leading-relaxed max-w-2xl mx-auto';
+const combinedClasses = `${baseClasses} ${variantClasses[variant]} ${className}`;
+---
+
+<p class={combinedClasses}>
+	<slot />
+</p>

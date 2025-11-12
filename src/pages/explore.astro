@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import MasonryGallery from '../components/MasonryGallery.astro';
+import Text from '../components/Text.astro';
 import { allArtworks } from '../lib/artworks';
 
 // Get first 4 images for preloading (first visible row on desktop)
@@ -28,10 +29,10 @@ const firstFourImages = allArtworks.slice(0, 4);
 	</Fragment>
 	<div class="container mx-auto px-4 mt-6" data-pagefind-ignore>
 		<h1 class="text-4xl text-gray-warm-100 text-center mb-4">Explore</h1>
-		<p class="text-gray-warm-300 text-center max-w-2xl mx-auto mb-8">
+		<Text variant="lg" class="text-center mb-8">
 			Discover connections between artworks from the Met Museum's collection.
 			Click any artwork to view details and find visually similar works.
-		</p>
+		</Text>
 
 		<MasonryGallery artworks={allArtworks} eagerCount={10} />
 	</div>
