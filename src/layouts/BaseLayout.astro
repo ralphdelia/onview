@@ -39,9 +39,6 @@ const pageUrl = url ?? 'https://onview.dev';
 		<link rel="dns-prefetch" href="https://images.onview.dev" />
 		<link rel="preconnect" href="https://images.onview.dev" crossorigin />
 
-		<!-- Allow pages to inject additional head elements -->
-		<slot name="head" />
-
 		<!-- Structured Data for WebSite -->
 		<script
 			type="application/ld+json"
@@ -72,10 +69,8 @@ const pageUrl = url ?? 'https://onview.dev';
 			rel="icon"
 			href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🖼️</text></svg>"
 		/>
-		<link
-			href="https://fonts.googleapis.com/icon?family=Material+Icons"
-			rel="stylesheet"
-		/>
+		<!-- Allow pages to inject additional head elements -->
+		<slot name="head" />
 	</head>
 	<body class="bg-gray-warm-950 min-h-screen p-4 font-sans font">
 		<!-- Content that needs to escape max-width constraint -->
