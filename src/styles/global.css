@@ -15,10 +15,13 @@
 
 	--font-sans:
 		'Lora', ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
+
+	--color-text-primary: rgb(239 225 216 / 0.95);
 }
 
 body {
 	background-color: #100d02;
+	color: var(--color-text-primary);
 	margin: 0;
 	padding: 0;
 }

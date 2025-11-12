@@ -17,12 +17,12 @@ const { artwork } = Astro.props;
 ---
 
 <Card>
-	<div class="text-gray-warm-100 space-y-2" data-pagefind-body>
+	<div class="text-primary space-y-2" data-pagefind-body>
 		<p class="text-xs text-gray-warm-200">
 			{artwork.artistDisplayName || 'Unknown Artist'}
 		</p>
 
-		<h1 class="text-sm text-gray-warm-100">
+		<h1 class="text-sm text-primary">
 			{artwork.title || 'Untitled'}{
 				artwork.objectDate ? `, ${artwork.objectDate}` : ''
 			}
@@ -37,14 +37,6 @@ const { artwork } = Astro.props;
 		{
 			artwork.dimensions && (
 				<p class="text-xs text-gray-warm-300">{artwork.dimensions}</p>
-			)
-		}
-
-		{
-			artwork.galleryNumber && (
-				<p class="text-xs text-gray-warm-200">
-					Gallery {artwork.galleryNumber}
-				</p>
 			)
 		}
 

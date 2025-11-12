@@ -37,7 +37,7 @@ const { artwork, lazy = false } = Astro.props;
 	<figcaption
 		class="absolute inset-0 bg-gray-warm-950/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 rounded-md pointer-events-none"
 	>
-		<h3 class="text-gray-warm-100 text-lg">{artwork.title}</h3>
+		<h3 class="text-primary text-lg">{artwork.title}</h3>
 		{artwork.artistDisplayName && <p class="text-gray-warm-300 text-sm">{artwork.artistDisplayName}</p>}
 		{artwork.objectDate && <p class="text-gray-warm-400 text-xs mt-1">{artwork.objectDate}</p>}
 		{
