@@ -8,7 +8,7 @@ export function navigateToRandomArtwork(event?: Event) {
 	}
 
 	const randomId = artworkIds[Math.floor(Math.random() * artworkIds.length)];
-	window.location.href = `/artwork/${randomId}`;
+	window.location.href = `/artwork/${randomId}/`;
 }
 
 // Expose to window for inline onclick handlers
