@@ -4,7 +4,7 @@ import MasonryGallery from '../components/MasonryGallery.astro';
 import Text from '../components/Text.astro';
 import { allArtworks } from '../lib/artworks';
 
-const firstImages = allArtworks.slice(0, 4);
+const firstImages = allArtworks.slice(0, 6);
 ---
 
 <BaseLayout
@@ -16,13 +16,7 @@ const firstImages = allArtworks.slice(0, 4);
 		<!-- Preload first row of images for faster LCP -->
 		{
 			firstImages.map((artwork) => (
-				<link
-					rel="preload"
-					as="image"
-					href={artwork.images.medium}
-					imagesrcset={`${artwork.images.small} 400w, ${artwork.images.medium} 800w`}
-					imagesizes="(max-width: 1024px) 33vw, 25vw"
-				/>
+				<link rel="preload" as="image" href={artwork.images.small} />
 			))
 		}
 	</Fragment>
