@@ -7,24 +7,30 @@ interface Props {
 }
 
 const { artwork, lazy = false } = Astro.props;
+const { width, height } = artwork.imageDimensions.small;
+const aspectRatio = (height / width) * 100;
 ---
 
 <figure class="relative group block overflow-hidden rounded-md">
 	<a href={`/artwork/${artwork.objectID}/`} class="block relative cursor-pointer">
 		{lazy ? (
-			<div class="relative w-full min-h-[300px]">
+			<div class="relative w-full" style={`padding-bottom: ${aspectRatio}%`}>
 				<!-- Skeleton loader placeholder -->
 				<div class="skeleton-loader absolute inset-0 bg-gray-warm-800 rounded-md"></div>
 				<img
 					data-src={artwork.images.small}
 					alt={`${artwork.title}${artwork.artistDisplayName ? ` by ${artwork.artistDisplayName}` : ''}`}
-					class="lazy-image w-full h-auto rounded-md opacity-0 transition-opacity duration-300"
+					width={width}
+					height={height}
+					class="lazy-image absolute inset-0 w-full h-full rounded-md opacity-0 transition-opacity duration-300"
 				/>
 			</div>
 		) : (
 			<img
 				src={artwork.images.small}
 				alt={`${artwork.title}${artwork.artistDisplayName ? ` by ${artwork.artistDisplayName}` : ''}`}
+				width={width}
+				height={height}
 				class="w-full rounded-md block"
 				loading="eager"
 				fetchpriority="high"

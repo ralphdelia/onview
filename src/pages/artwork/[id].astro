@@ -27,6 +27,9 @@ const title = `${artwork.title} - OnView`;
 const description = `${artwork.title} by ${artwork.artistDisplayName}. ${artwork.objectDate}. ${artwork.medium}. Discover visually similar artworks from the Metropolitan Museum of Art.`;
 const image = artwork.primaryImageSmall;
 const url = `https://onview.dev/artwork/${id}`;
+
+// Use medium dimensions as the default display size
+const { width, height } = artwork.imageDimensions.medium;
 ---
 
 <BaseLayout title={title} description={description} image={image} url={url}>
@@ -83,6 +86,8 @@ const url = `https://onview.dev/artwork/${id}`;
 				<img
 					src={artwork.images.medium}
 					alt={artwork.title}
+					width={width}
+					height={height}
 					class="w-full max-w-4xl h-auto rounded-lg"
 					loading="eager"
 					data-pagefind-meta="image[src]"

@@ -18,6 +18,20 @@ export interface Artwork {
 		medium: string;
 		large: string;
 	};
+	imageDimensions: {
+		small: {
+			width: number;
+			height: number;
+		};
+		medium: {
+			width: number;
+			height: number;
+		};
+		large: {
+			width: number;
+			height: number;
+		};
+	};
 	processed?: boolean;
 }
 
