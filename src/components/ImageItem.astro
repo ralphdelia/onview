@@ -26,21 +26,23 @@ const aspectRatio = (height / width) * 100;
 				/>
 			</div>
 		) : (
-			<img
-				src={artwork.images.small}
-				alt={`${artwork.title}${artwork.artistDisplayName ? ` by ${artwork.artistDisplayName}` : ''}`}
-				width={width}
-				height={height}
-				class="w-full rounded-md block"
-				loading="eager"
-				fetchpriority="high"
-			/>
+			<div class="relative w-full" style={`padding-bottom: ${aspectRatio}%`}>
+				<img
+					src={artwork.images.small}
+					alt={`${artwork.title}${artwork.artistDisplayName ? ` by ${artwork.artistDisplayName}` : ''}`}
+					width={width}
+					height={height}
+					class="absolute inset-0 w-full h-full rounded-md block"
+					loading="eager"
+					fetchpriority="high"
+				/>
+			</div>
 		)}
 	</a>
 	<figcaption
 		class="absolute inset-0 bg-gray-warm-950/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 rounded-md pointer-events-none"
 	>
-		<h3 class="text-primary text-lg">{artwork.title}</h3>
+		<h2 class="text-primary text-lg">{artwork.title}</h2>
 		{artwork.artistDisplayName && <p class="text-gray-warm-300 text-sm">{artwork.artistDisplayName}</p>}
 		{artwork.objectDate && <p class="text-gray-warm-400 text-xs mt-1">{artwork.objectDate}</p>}
 		{
