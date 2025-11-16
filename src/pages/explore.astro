@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import MasonryGallery from '../components/MasonryGallery.astro';
+import StaticMasonry from '../components/StaticMasonry.astro';
 import Text from '../components/Text.astro';
 import { allArtworks } from '../lib/artworks';
 
@@ -27,6 +27,6 @@ const firstImages = allArtworks.slice(0, 6);
 			Click any artwork to view details and find visually similar works.
 		</Text>
 
-		<MasonryGallery artworks={allArtworks} eagerCount={10} />
+		<StaticMasonry artworks={allArtworks} eagerCount={10} />
 	</div>
 </BaseLayout>

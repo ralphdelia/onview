@@ -65,21 +65,7 @@
 		}
 	}
 
-	if (document.readyState === 'loading') {
-		document.addEventListener('DOMContentLoaded', () => {
-			if ('requestIdleCallback' in window) {
-				requestIdleCallback(() => loadArtworkIds());
-			} else {
-				setTimeout(() => loadArtworkIds(), 1);
-			}
-		});
-	} else {
-		if ('requestIdleCallback' in window) {
-			requestIdleCallback(() => loadArtworkIds());
-		} else {
-			setTimeout(() => loadArtworkIds(), 1);
-		}
-	}
+	// Don't preload - only load when button is clicked
 
 	const button = document.getElementById('random-artwork-btn');
 	button?.addEventListener('click', navigateToRandomArtwork);
