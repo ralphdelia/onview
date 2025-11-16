@@ -7,9 +7,10 @@ interface Props {
 	description?: string;
 	image?: string;
 	url?: string;
+	keywords?: string;
 }
 
-const { title, description, image, url } = Astro.props;
+const { title, description, image, url, keywords } = Astro.props;
 
 const pageTitle = title ?? 'OnView';
 const pageDescription =
@@ -17,6 +18,8 @@ const pageDescription =
 	"Discover visually similar paintings from the Metropolitan Museum of Art's collection";
 const pageImage = image ?? 'https://onview.dev/og-image.jpg';
 const pageUrl = url ?? 'https://onview.dev';
+const defaultKeywords = 'art gallery, museum, paintings, Metropolitan Museum of Art, visual similarity, art search, impressionism, renaissance art, baroque, modern art';
+const pageKeywords = keywords ? `${keywords}, ${defaultKeywords}` : defaultKeywords;
 ---
 
 <html lang="en">
@@ -26,6 +29,7 @@ const pageUrl = url ?? 'https://onview.dev';
 		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
 		<title>{pageTitle}</title>
 		<meta name="description" content={pageDescription} />
+		<meta name="keywords" content={pageKeywords} />
 
 		<!-- DNS Prefetch and Preconnect for image CDN -->
 		<link rel="dns-prefetch" href="https://images.onview.dev" />
@@ -58,6 +62,7 @@ const pageUrl = url ?? 'https://onview.dev';
 		<link rel="canonical" href={pageUrl} />
 		<meta name="theme-color" content="#ff7700" />
 		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
 		<!-- Allow pages to inject additional head elements -->
 		<slot name="head" />
 	</head>

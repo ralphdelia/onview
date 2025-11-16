@@ -27,12 +27,19 @@ const title = `${artwork.title} - OnView`;
 const description = `${artwork.title} by ${artwork.artistDisplayName}. ${artwork.objectDate}. ${artwork.medium}. Discover visually similar artworks from the Metropolitan Museum of Art.`;
 const image = artwork.primaryImageSmall;
 const url = `https://onview.dev/artwork/${id}`;
+const keywords = `${artwork.title}, ${artwork.artistDisplayName}, ${artwork.medium}, ${artwork.culture}`;
 
 // Use medium dimensions as the default display size
 const { width, height } = artwork.imageDimensions.medium;
 ---
 
-<BaseLayout title={title} description={description} image={image} url={url}>
+<BaseLayout
+	title={title}
+	description={description}
+	image={image}
+	url={url}
+	keywords={keywords}
+>
 	<Fragment slot="head">
 		<!-- Preload main artwork image for faster LCP -->
 		<link
