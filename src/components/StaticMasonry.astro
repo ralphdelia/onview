@@ -38,12 +38,17 @@ columnCounts.forEach((count) => {
 		const columns = distributions.get(columnCount)!;
 		return (
 			<template data-layout={columnCount}>
-				<div class={`${className} layout-${columnCount}`} data-columns={columnCount}>
+				<div
+					class={`${className} layout-${columnCount}`}
+					data-columns={columnCount}
+				>
 					{columns.map((column) => (
 						<div class={columnClass}>
 							{column.map((artwork) => {
 								const index = artworks.indexOf(artwork);
-								return <ImageItem artwork={artwork} lazy={index >= eagerCount} />;
+								return (
+									<ImageItem artwork={artwork} lazy={index >= eagerCount} />
+								);
 							})}
 						</div>
 					))}
@@ -72,115 +77,96 @@ columnCounts.forEach((count) => {
 <script define:vars={{ breakpointCols }}>
 	let imageObserver = null;
 
-	// Function to initialize intersection observer for lazy loading
 	function initLazyLoading() {
-		// Disconnect existing observer if any
 		if (imageObserver) {
 			imageObserver.disconnect();
 		}
 
-		// Create new observer
-		if ('IntersectionObserver' in window) {
-			imageObserver = new IntersectionObserver(
-				(entries, observer) => {
-					entries.forEach((entry) => {
-						if (entry.isIntersecting) {
-							const img = entry.target;
-							const src = img.getAttribute('data-src');
-							const srcset = img.getAttribute('data-srcset');
-							const sizes = img.getAttribute('data-sizes');
+		imageObserver = new IntersectionObserver(
+			(entries, observer) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) {
+						const img = entry.target;
+						const src = img.getAttribute('data-src');
+						const srcset = img.getAttribute('data-srcset');
+						const sizes = img.getAttribute('data-sizes');
 
-							if (src) {
-								img.src = src;
-								if (srcset) img.srcset = srcset;
-								if (sizes) img.sizes = sizes;
+						if (src) {
+							img.src = src;
+							if (srcset) img.srcset = srcset;
+							if (sizes) img.sizes = sizes;
 
-								img.onload = () => {
-									// Remove skeleton and min-height constraint
-									const skeleton = img.previousElementSibling;
-									if (skeleton) skeleton.remove();
+							img.onload = () => {
+								// Remove skeleton and min-height constraint
+								const skeleton = img.previousElementSibling;
+								if (skeleton) skeleton.remove();
 
-									const wrapper = img.parentElement;
-									if (wrapper && wrapper.classList.contains('min-h-[300px]')) {
-										wrapper.classList.remove('min-h-[300px]');
-									}
+								const wrapper = img.parentElement;
+								if (wrapper && wrapper.classList.contains('min-h-[300px]')) {
+									wrapper.classList.remove('min-h-[300px]');
+								}
 
-									img.classList.remove('opacity-0');
-									img.classList.add('opacity-100');
-								};
+								img.classList.remove('opacity-0');
+								img.classList.add('opacity-100');
+							};
 
-								observer.unobserve(img);
-							}
+							observer.unobserve(img);
 						}
-					});
-				},
-				{
-					rootMargin: '200px 0px',
-					threshold: 0.01,
-				}
-			);
+					}
+				});
+			},
+			{
+				rootMargin: '200px 0px',
+				threshold: 0.01,
+			},
+		);
 
-			// Observe all lazy images
-			document.querySelectorAll('.lazy-image').forEach((img) => {
-				imageObserver.observe(img);
-			});
-		} else {
-			// Fallback for browsers without IntersectionObserver
-			document.querySelectorAll('.lazy-image').forEach((img) => {
-				const element = img;
-				const src = element.getAttribute('data-src');
-				const srcset = element.getAttribute('data-srcset');
-				const sizes = element.getAttribute('data-sizes');
-
-				if (src) element.src = src;
-				if (srcset) element.srcset = srcset;
-				if (sizes) element.sizes = sizes;
-
-				const skeleton = element.previousElementSibling;
-				if (skeleton) skeleton.remove();
-				element.classList.remove('opacity-0');
-				element.classList.add('opacity-100');
-			});
-		}
+		// Observe all lazy images
+		document.querySelectorAll('.lazy-image').forEach((img) => {
+			imageObserver.observe(img);
+		});
 	}
 
-	// Function to determine which layout to show based on viewport
 	function getLayoutForViewport() {
 		const width = window.innerWidth;
-		
-		if (width <= 640) return breakpointCols[640] || 1;
-		if (width <= 900) return breakpointCols[900] || 2;
-		if (width <= 1280) return breakpointCols[1280] || 3;
-		return breakpointCols.default || 4;
+
+		const breakpoints = Object.keys(breakpointCols)
+			.filter((key) => key !== 'default' && !isNaN(Number(key)))
+			.map(Number)
+			.sort((a, b) => a - b);
+
+		for (const breakpoint of breakpoints) {
+			if (width <= breakpoint) {
+				return breakpointCols[breakpoint];
+			}
+		}
+
+		return breakpointCols.default || breakpointCols[Math.max(...breakpoints)];
 	}
 
-	// Function to render the appropriate layout
 	function renderLayout() {
 		const columnCount = getLayoutForViewport();
-		const template = document.querySelector(`template[data-layout="${columnCount}"]`);
+		const template = document.querySelector(
+			`template[data-layout="${columnCount}"]`,
+		);
 		const container = document.getElementById('masonry-container');
-		
+
 		if (!template || !container) return;
-		
-		// Clear existing content
+
 		container.innerHTML = '';
-		
-		// Clone and insert the template content
+
 		const content = template.content.cloneNode(true);
 		container.appendChild(content);
 
-		// Reinitialize lazy loading for new content
 		initLazyLoading();
 	}
 
-	// Render on load
 	if (document.readyState === 'loading') {
 		document.addEventListener('DOMContentLoaded', renderLayout);
 	} else {
 		renderLayout();
 	}
 
-	// Re-render on resize (debounced)
 	let resizeTimeout;
 	window.addEventListener('resize', () => {
 		clearTimeout(resizeTimeout);
