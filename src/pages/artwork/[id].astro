@@ -26,7 +26,7 @@ const relatedArtworks = getRelatedArtworks(artwork.relatedArtworks);
 const title = `${artwork.title} - OnView`;
 const description = `${artwork.title} by ${artwork.artistDisplayName}. ${artwork.objectDate}. ${artwork.medium}. Discover visually similar artworks from the Metropolitan Museum of Art.`;
 const image = artwork.primaryImageSmall;
-const url = `https://onview.dev/artwork/${id}`;
+const url = `https://onview.dev/artwork/${id}/`;
 const keywords = `${artwork.title}, ${artwork.artistDisplayName}, ${artwork.medium}, ${artwork.culture}`;
 
 // Use medium dimensions as the default display size
@@ -64,7 +64,7 @@ const { width, height } = artwork.imageDimensions.medium;
 				dateCreated: artwork.objectDate,
 				artMedium: artwork.medium,
 				artform: 'Painting',
-				url: `https://onview.dev/artwork/${id}`,
+				url: `https://onview.dev/artwork/${id}/`,
 				isPartOf: {
 					'@type': 'Collection',
 					name: 'Metropolitan Museum of Art Open Access Collection',
